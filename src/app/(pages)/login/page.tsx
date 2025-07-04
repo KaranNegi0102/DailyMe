@@ -1,53 +1,57 @@
 "use client";
-import { useState } from "react";
+import { useForm } from "react-hook-form";
 import axios from "axios";
 
-
+interface LoginFormData {
+  username: string;
+  password: string;
+}
 
 export default function Login() {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<LoginFormData>();
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError("");
-    try{
-      const response = await axios.post("http://127.0.0.1:8000/login" , {
-        username,
-        password
-      } )
+  const onSubmit = async (data: LoginFormData) => {
+    try {
+      
+      const response = await axios.post("http://127.0.0.1:8000/login", data);
+      console.log(response);
 
-      console.log(response)
-
-    }
-    catch(error){
-      console.log(error)
+    } catch (error) {
+      console.log(error);
     }
   };
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <form
-        onSubmit={handleSubmit}
+        onSubmit={handleSubmit(onSubmit)}
         className="bg-white p-8 rounded-lg shadow-md w-full max-w-sm"
       >
         <h2 className="text-2xl font-bold mb-6 text-center">Login</h2>
-        {error && (
-          <div className="mb-4 text-red-500 text-sm text-center">{error}</div>
+        {errors.root && (
+          <div className="mb-4 text-red-500 text-sm text-center">
+            {errors.root.message}
+          </div>
         )}
         <div className="mb-4">
-          <label className="block mb-1 font-medium" htmlFor="email">
-            Email
+          <label className="block mb-1 font-medium" htmlFor="username">
+            Username
           </label>
           <input
-            id="email"
+            id="username"
             type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            {...register("username", { required: "Username is required" })}
             className="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            required
           />
+          {errors.username && (
+            <div className="mt-1 text-red-500 text-sm">
+              {errors.username.message}
+            </div>
+          )}
         </div>
         <div className="mb-6">
           <label className="block mb-1 font-medium" htmlFor="password">
@@ -56,11 +60,14 @@ export default function Login() {
           <input
             id="password"
             type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            {...register("password", { required: "Password is required" })}
             className="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            required
           />
+          {errors.password && (
+            <div className="mt-1 text-red-500 text-sm">
+              {errors.password.message}
+            </div>
+          )}
         </div>
         <button
           type="submit"
