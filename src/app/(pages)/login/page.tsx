@@ -1,16 +1,25 @@
 "use client";
 import { useState } from "react";
+import axios from "axios";
+
+
 
 export default function Login() {
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
     try{
-      
+      const response = await axios.post("http://127.0.0.1:8000/login" , {
+        username,
+        password
+      } )
+
+      console.log(response)
+
     }
     catch(error){
       console.log(error)
@@ -33,9 +42,9 @@ export default function Login() {
           </label>
           <input
             id="email"
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            type="text"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
             className="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
             required
           />

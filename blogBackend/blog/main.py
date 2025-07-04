@@ -1,8 +1,18 @@
 from fastapi import FastAPI , HTTPException
 from  pydantic import BaseModel
 from blog.db import get_cursor, conn
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
+
+# Enable CORS for frontend
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"] ,
+    allow_headers=["*"]
+)
 
 # pydantic schemas for well defination 
 class UserIn(BaseModel):
@@ -33,6 +43,7 @@ def register(user:UserIn):
   except Exception as e:
     conn.rollback()
     raise HTTPException(status_code=400,detail="username already exists")
+
 
 @app.post("/login")
 def login(user:UserIn):
