@@ -15,9 +15,16 @@ app.add_middleware(
 )
 
 # pydantic schemas for well defination 
-class UserIn(BaseModel):
+class RegisterUserIn(BaseModel):
   username:str
   password:str
+  phone:str
+  email:str
+
+class LoginUserIn(BaseModel):
+  username:str
+  password:str
+
 
 class BlogIn(BaseModel):
   title:str
@@ -33,26 +40,33 @@ logged_in_users={}
 # routes now onwards
 
 @app.post("/register")
-def register(user:UserIn):
+def register(user:RegisterUserIn):
+  print(user)
   cur = get_cursor()
   try:
-    cur.execute("INSERT INTO users(username,password) VALUES(%s,%s) RETURNING id",(user.username,user.password))
+    cur.execute("INSERT INTO users(username,password,email,phone) VALUES(%s,%s,%s,%s) RETURNING id", (user.username,user.password,user.email,user.phone))
     user_id = cur.fetchone()[0]
     conn.commit()
-    return { "message":"user registered", "user_id":user_id}
+    return { "message":"user registered", "user_id":user_id }
   except Exception as e:
     conn.rollback()
     raise HTTPException(status_code=400,detail="username already exists")
 
 
 @app.post("/login")
-def login(user:UserIn):
+def login(user:LoginUserIn):
   cur = get_cursor()
   try:
-    cur.execute("SELECT id FROM users WHERE username=%s AND password=%s",(user.username,user.password))
-    user_id = cur.fetchone()[0]
-    logged_in_users[user_id] = user_id
-    return { "message":"user logged in", "user_id":user_id}
+    cur.execute("SELECT * FROM users WHERE username=%s AND password=%s",(user.username,user.password))
+    usersData = cur.fetchone()
+
+    if not usersData:
+      return {"error":"invalid username or password"}
+
+    res_userData=[{"id":usersData[0],"username":usersData[1],"password":usersData[2]}  for i in usersData ]
+
+    return res_userData[0]
+
   except Exception as e:
     raise HTTPException(status_code=400,detail="invalid username or password")
 
@@ -65,7 +79,6 @@ def create_blog(blog: BlogIn, user_id: int):
     conn.commit()
     return {"message": "Blog created", "blog_id": blog_id}
  
-
 @app.get("/blogs")
 def get_all_blogs():
     cur = get_cursor()
