@@ -53,6 +53,7 @@ def register(user:RegisterUserIn):
     raise HTTPException(status_code=400,detail="username already exists")
 
 
+
 @app.post("/login")
 def login(user:LoginUserIn):
   cur = get_cursor()
