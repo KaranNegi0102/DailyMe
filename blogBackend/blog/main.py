@@ -1,7 +1,11 @@
-from fastapi import FastAPI , HTTPException
+from fastapi import FastAPI , HTTPException , Response
 from  pydantic import BaseModel
 from blog.db import get_cursor, conn
 from fastapi.middleware.cors import CORSMiddleware
+from blog.auth import create_token
+
+
+
 
 app = FastAPI()
 
@@ -55,21 +59,39 @@ def register(user:RegisterUserIn):
 
 
 @app.post("/login")
-def login(user:LoginUserIn):
+def login(user:LoginUserIn,response:Response):
   cur = get_cursor()
   try:
     cur.execute("SELECT * FROM users WHERE username=%s AND password=%s",(user.username,user.password))
     usersData = cur.fetchone()
 
     if not usersData:
-      return {"error":"invalid username or password"}
+      return {"error":"invalid username or password in the backend"}
 
     res_userData=[{"id":usersData[0],"username":usersData[1],"password":usersData[2]}  for i in usersData ]
+
+    user_payload = {
+      "id":usersData[0],
+      "username":usersData[1]
+    }
+
+    token = create_token(user_payload)
+
+    print(f"token is ->  {token}")
+    
+    response.set_cookie(
+      key="auth_token",
+      value=token,
+      httponly=True,
+      secure=False,
+      samesite="Lax",
+      max_age = 7 * 24 * 60 * 60
+    )
 
     return res_userData[0]
 
   except Exception as e:
-    raise HTTPException(status_code=400,detail="invalid username or password")
+    raise HTTPException(status_code=400,detail="invalid username or password in the login backend code")
 
 
 @app.post("/blogs")
