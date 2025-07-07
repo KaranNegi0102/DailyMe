@@ -2,18 +2,22 @@ import jwt
 from datetime import datetime , timedelta
 
 SECRET_KEY = "blogSecret"
-AlGORITHM = "HS256"
+ALGORITHM = "HS256"
 
 def create_token(data:dict,expires_delta : timedelta = timedelta(days=7)):
   to_encode = data.copy()
-  expire = datetime.now() + expires_delta
+  expire = datetime.utcnow() + expires_delta
   to_encode.update({"exp":expire})
-  encoded_jwt = jwt.encode(to_encode,SECRET_KEY,algorithm=AlGORITHM)
+  encoded_jwt = jwt.encode(to_encode,SECRET_KEY,algorithm=ALGORITHM)
   return encoded_jwt
 
 def decode_token(token:str):
+  # print(f"token is {token}")
+  # print("am here going to decode the token")
   try:
+    # print("one step above decoding")
     payload= jwt.decode(token,SECRET_KEY,algorithms=[ALGORITHM])
+    # print(f"payload is {payload}")
     return payload
   except jwt.ExpiredSignatureError:
     raise Exception("token expired")

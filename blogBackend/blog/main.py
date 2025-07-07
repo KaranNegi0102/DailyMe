@@ -2,7 +2,9 @@ from fastapi import FastAPI , HTTPException , Response
 from  pydantic import BaseModel
 from blog.db import get_cursor, conn
 from fastapi.middleware.cors import CORSMiddleware
-from blog.auth import create_token
+from blog.auth import create_token , decode_token
+from fastapi import Cookie
+
 
 
 
@@ -12,7 +14,7 @@ app = FastAPI()
 # Enable CORS for frontend
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=["http://localhost:3000"],
     allow_credentials=True,
     allow_methods=["*"] ,
     allow_headers=["*"]
@@ -65,6 +67,8 @@ def login(user:LoginUserIn,response:Response):
     cur.execute("SELECT * FROM users WHERE username=%s AND password=%s",(user.username,user.password))
     usersData = cur.fetchone()
 
+    print(f"usersData is {usersData}")
+
     if not usersData:
       return {"error":"invalid username or password in the backend"}
 
@@ -72,12 +76,15 @@ def login(user:LoginUserIn,response:Response):
 
     user_payload = {
       "id":usersData[0],
-      "username":usersData[1]
+      "username":usersData[1],
+      "password":usersData[2],
+      "email":usersData[3],
+      "phone":usersData[4]
     }
 
     token = create_token(user_payload)
 
-    print(f"token is ->  {token}")
+    # print(f"token is ->  {token}")
     
     response.set_cookie(
       key="auth_token",
@@ -94,6 +101,25 @@ def login(user:LoginUserIn,response:Response):
     raise HTTPException(status_code=400,detail="invalid username or password in the login backend code")
 
 
+
+@app.get("/checkUser")
+def check_user(auth_token:str = Cookie()):
+  
+  # print(f"this is auth token in backend python {auth_token}")
+
+  if not auth_token:
+    raise HTTPException(status_code=401,detail="unauthorized access")
+  try:
+    user = decode_token(auth_token)
+    # print(f"this is user in backend python {user}")
+    return user
+  except Exception as e:
+    raise HTTPException(status_code=401,detail="unauthorized")
+
+
+
+
+
 @app.post("/blogs")
 def create_blog(blog: BlogIn, user_id: int):
     cur = get_cursor()
@@ -101,6 +127,9 @@ def create_blog(blog: BlogIn, user_id: int):
     blog_id = cur.fetchone()[0]
     conn.commit()
     return {"message": "Blog created", "blog_id": blog_id}
+
+
+
  
 @app.get("/blogs")
 def get_all_blogs():

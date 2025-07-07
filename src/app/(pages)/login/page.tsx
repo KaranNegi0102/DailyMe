@@ -18,12 +18,18 @@ export default function Login() {
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
+  axios.defaults.withCredentials = true; // globally
+
+
   const onSubmit = async (data: LoginFormData) => {
     setIsLoading(true);
     setErrorMessage("");
 
     try {
-      const response = await axios.post("http://127.0.0.1:8000/login", data);
+      const response = await axios.post("http://localhost:8000/login", data,
+        {
+        withCredentials: true,
+      });
       console.log(response);
       // Handle successful login here
     } catch (error) {
