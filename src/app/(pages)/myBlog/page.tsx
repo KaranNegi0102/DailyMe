@@ -54,7 +54,7 @@ export default function Page() {
           <p className="text-gray-600">Your Blogs</p>
         </div>
         <a
-          href="/blog/create"
+          href="/createBlog"
           className="bg-black hover:bg-white hover:text-black text-white font-bold py-2 px-6 rounded-full shadow-md transition-colors duration-200"
         >
           Write More Blogs

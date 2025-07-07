@@ -120,8 +120,10 @@ def check_user(auth_token:str = Cookie()):
 
 
 
-@app.post("/blogs")
+@app.post("/createBlogs")
 def create_blog(blog: BlogIn, user_id: int):
+    print(f"user_id is {user_id}")
+    print(f"blog is {blog}")
     cur = get_cursor()
     cur.execute("INSERT INTO blogs (title, content, owner_id) VALUES (%s, %s, %s) RETURNING id", (blog.title, blog.content, user_id))
     blog_id = cur.fetchone()[0]
