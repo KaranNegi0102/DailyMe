@@ -139,12 +139,15 @@ def get_all_blogs():
     print(f"blogs area : {blogs}")
     return [{"id": b[0], "title":b[1], "content":b[2], "owner_id":b[3]} for b in blogs]  #list comprehensions  
 
+
 @app.get("/myblogs")
 def get_my_blog(user_id:int):
   cur = get_cursor()
   cur.execute("SELECT * FROM blogs WHERE owner_id=%s",(user_id,))
   blogs=cur.fetchall()
   return [{"id":b[0], "title":b[1], "content":b[2],"owner_id":b[3]} for b in blogs]
+
+  
 
 @app.post("/blogs/{blog_id}")
 def delete_blog(blog_id:int,user_id:int):

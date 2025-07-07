@@ -9,11 +9,10 @@ export default function SimpleNavbar() {
       {/* Left: Navigation */}
       <div className="flex space-x-4">
         <Link
-          href="/blog"
+          href="/myBlog"
           className="text-gray-600 hover:underline  hover:text-indigo-600 transition-colors"
         >
-          Blog
-        </Link>
+          Your Blog&apos;s </Link>
         <Link
           href="/about"
           className="text-gray-600 hover:underline  hover:text-indigo-600 transition-colors"
@@ -34,7 +33,7 @@ export default function SimpleNavbar() {
         </Link>
       </div>
       {/* Center: Website Name */}
-      <div className="text-2xl font-bold playfair-display text-[#e08c8c] text-center  mr-32 flex-1">
+      <div className="text-2xl font-bold playfair-display text-[#e08c8c] text-center  mr-37 flex-1">
         BlogHub
       </div>
       {/* Right: Social Media Icons */}

@@ -5,7 +5,7 @@ import axios from "axios";
 
 interface USER_DATA_TYPE {
   id: string;
-  name: string;
+  username: string;
   email: string;
   password: string;
   phone: string;

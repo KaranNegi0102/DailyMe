@@ -36,7 +36,7 @@ export default function BlogDisplay() {
       {blogs.map((blog) => (
         <div
           key={blog.id}
-          className="bg-[#f6ebeb]  overflow-hidden flex flex-col"
+          className="bg-[#f3f3eb]  overflow-hidden flex flex-col"
         >
           <Image
             src="https://images.squarespace-cdn.com/content/v1/624b3c6d692bd24ce26121ca/1651581695546-6RVXQ1JLNPEH4WS36GG7/07_20160720S1_WEATHERBY_ANGLERS_048.jpg?format=2500w"
@@ -49,14 +49,14 @@ export default function BlogDisplay() {
             <h2 className="text-3xl lato mt-6  text-black tracking-wide">
               {blog.title}
             </h2>
-            <p className="text-gray-600 mb-4  mt-4 text-center">
+            <p className="text-gray-600 mb-4 lato-regular-italic mt-4 text-center">
               {blog.content.length > 120
                 ? blog.content.slice(0, 70) + "..."
                 : blog.content}
             </p>
             <a
               href={`/blog/${blog.id}`}
-              className="mt-auto inline-block text-black playfair-display  hover:underline font-semibold"
+              className="mt-auto inline-block text-black lato-bold  underline font-semibold tracking-wide"
             >
               Read More
             </a>
