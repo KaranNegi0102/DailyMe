@@ -5,6 +5,11 @@ from fastapi.middleware.cors import CORSMiddleware
 from blog.auth import create_token , decode_token
 from fastapi import Cookie
 
+from fastapi import File,UploadFile
+from blog.cloud_config import cloudinary
+import cloudinary.uploader
+
+
 
 
 
@@ -35,6 +40,10 @@ class LoginUserIn(BaseModel):
 class BlogIn(BaseModel):
   title:str
   content:str
+  image_url:str | None = None
+
+
+
 
 class BlogUpdate(BaseModel):
   title:str
@@ -117,7 +126,12 @@ def check_user(auth_token:str = Cookie()):
     raise HTTPException(status_code=401,detail="unauthorized")
 
 
-
+# route banana h for image upload
+@app.post("/upload_image")
+def upload_image(file:UploadFile=File(...)):
+  result = cloudinary.uploader.upload(file.file)
+  print(f"this is result = {result}")
+  return {"image_url":result["secure_url"]}
 
 
 @app.post("/createBlogs")
@@ -125,21 +139,19 @@ def create_blog(blog: BlogIn, user_id: int):
     print(f"user_id is {user_id}")
     print(f"blog is {blog}")
     cur = get_cursor()
-    cur.execute("INSERT INTO blogs (title, content, owner_id) VALUES (%s, %s, %s) RETURNING id", (blog.title, blog.content, user_id))
+    cur.execute("INSERT INTO blogs (title, content, owner_id , image_url) VALUES (%s, %s, %s, %s) RETURNING id", (blog.title, blog.content, user_id,blog.image_url))
     blog_id = cur.fetchone()[0]
     conn.commit()
     return {"message": "Blog created", "blog_id": blog_id}
 
 
-
- 
 @app.get("/blogs")
 def get_all_blogs():
     cur = get_cursor()
     cur.execute("SELECT * FROM blogs")
     blogs = cur.fetchall()
     print(f"blogs area : {blogs}")
-    return [{"id": b[0], "title":b[1], "content":b[2], "owner_id":b[3]} for b in blogs]  #list comprehensions  
+    return [{"id": b[0], "title":b[1], "content":b[2], "owner_id":b[3], "created_at":b[4] , "image_url":b[5] } for b in blogs]  #list comprehensions  
 
 
 @app.get("/myblogs")
@@ -147,7 +159,7 @@ def get_my_blog(user_id:int):
   cur = get_cursor()
   cur.execute("SELECT * FROM blogs WHERE owner_id=%s",(user_id,))
   blogs=cur.fetchall()
-  return [{"id":b[0], "title":b[1], "content":b[2],"owner_id":b[3]} for b in blogs]
+  return [{"id":b[0], "title":b[1], "content":b[2],"owner_id":b[3] , "created_at":b[4] , "image_url":b[5] } for b in blogs]
 
   
 

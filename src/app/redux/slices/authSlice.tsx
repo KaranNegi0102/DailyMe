@@ -9,6 +9,7 @@ interface USER_DATA_TYPE {
   email: string;
   password: string;
   phone: string;
+  image_url: string;
   token:string;
 }
 

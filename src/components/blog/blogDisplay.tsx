@@ -8,6 +8,8 @@ interface Blog {
   title: string;
   content: string;
   owner_id: number;
+  created_at:string;
+  image_url: string;
 }
 
 export default function BlogDisplay() {
@@ -32,31 +34,34 @@ export default function BlogDisplay() {
   if (error) return <div>{error}</div>;
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8 p-9">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 gap-8 p-9">
       {blogs.map((blog) => (
         <div
           key={blog.id}
-          className="bg-[#f3f3eb]  overflow-hidden flex flex-col"
+          className="bg-[#f3f3eb]  overflow-hidden shadow-lg rounded-lg flex "
         >
           <Image
-            src="https://images.squarespace-cdn.com/content/v1/624b3c6d692bd24ce26121ca/1651581695546-6RVXQ1JLNPEH4WS36GG7/07_20160720S1_WEATHERBY_ANGLERS_048.jpg?format=2500w"
+            src={blog.image_url}
             alt="Blog"
             width={400}
             height={400}
-            className="w-full h-68 object-cover"
+            className="w-1/2 p-5 h-full object-cover"
           />
           <div className="p-4 flex flex-col flex-1 items-center">
-            <h2 className="text-3xl lato mt-6  text-black tracking-wide">
+            <h2 className="text-xl indie-flower-regular text-gray-500 tracking-wide">
+              {blog.created_at}
+            </h2>
+            <h2 className="text-3xl  indie-flower-regular mt-5 text-black tracking-wide">
               {blog.title}
             </h2>
-            <p className="text-gray-600 mb-4 lato-regular-italic mt-4 text-center">
+            <p className="text-gray-600 mb-4 indie-flower-regular mt-3 text-center">
               {blog.content.length > 120
-                ? blog.content.slice(0, 70) + "..."
+                ? blog.content.slice(0, 520) + "..."
                 : blog.content}
             </p>
             <a
               href={`/blog/${blog.id}`}
-              className="mt-auto inline-block text-black lato-bold  underline font-semibold tracking-wide"
+              className="mt-auto inline-block text-black indie-flower-regular  underline font-semibold tracking-wide"
             >
               Read More
             </a>
