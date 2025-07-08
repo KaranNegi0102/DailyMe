@@ -102,7 +102,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              Why Choose BlogHub?
+              Why Choose DailyME?
             </h2>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
               Everything you need to create, publish, and grow your blog in one
@@ -195,7 +195,7 @@ export default function Home() {
           </h2>
           <p className="text-xl text-indigo-100 mb-10 leading-relaxed">
             Join thousands of writers who are already sharing their stories and
-            building their audience with BlogHub.
+            building their audience with DailyME.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <Link
@@ -232,7 +232,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid md:grid-cols-4 gap-8">
             <div className="md:col-span-2">
-              <div className="text-2xl font-bold mb-4">BlogHub</div>
+              <div className="text-2xl font-bold mb-4">DailyME</div>
               <p className="text-gray-400 mb-6 leading-relaxed">
                 The professional platform for writers to share their stories,
                 connect with readers, and build their audience.
@@ -318,7 +318,7 @@ export default function Home() {
             </div>
           </div>
           <div className="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400">
-            <p>&copy; 2024 BlogHub. All rights reserved.</p>
+            <p>&copy; 2024 DailyME. All rights reserved.</p>
           </div>
         </div>
       </footer>

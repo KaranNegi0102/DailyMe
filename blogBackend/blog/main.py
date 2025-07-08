@@ -1,12 +1,12 @@
 from fastapi import FastAPI , HTTPException , Response
 from  pydantic import BaseModel
-from blog.db import get_cursor, conn
+from db import get_cursor, conn
 from fastapi.middleware.cors import CORSMiddleware
-from blog.auth import create_token , decode_token
+from auth import create_token , decode_token
 from fastapi import Cookie
 
 from fastapi import File,UploadFile
-from blog.cloud_config import cloudinary
+from cloud_config import cloudinary
 import cloudinary.uploader
 
 
@@ -130,14 +130,15 @@ def check_user(auth_token:str = Cookie()):
 @app.post("/upload_image")
 def upload_image(file:UploadFile=File(...)):
   result = cloudinary.uploader.upload(file.file)
-  print(f"this is result = {result}")
+  # print(f"this is result = {result}")
   return {"image_url":result["secure_url"]}
+
 
 
 @app.post("/createBlogs")
 def create_blog(blog: BlogIn, user_id: int):
-    print(f"user_id is {user_id}")
-    print(f"blog is {blog}")
+    # print(f"user_id is {user_id}")
+    # print(f"blog is {blog}")
     cur = get_cursor()
     cur.execute("INSERT INTO blogs (title, content, owner_id , image_url) VALUES (%s, %s, %s, %s) RETURNING id", (blog.title, blog.content, user_id,blog.image_url))
     blog_id = cur.fetchone()[0]
@@ -150,7 +151,7 @@ def get_all_blogs():
     cur = get_cursor()
     cur.execute("SELECT * FROM blogs")
     blogs = cur.fetchall()
-    print(f"blogs area : {blogs}")
+    # print(f"blogs area : {blogs}")
     return [{"id": b[0], "title":b[1], "content":b[2], "owner_id":b[3], "created_at":b[4] , "image_url":b[5] } for b in blogs]  #list comprehensions  
 
 
@@ -178,6 +179,11 @@ def delete_blog(blog_id:int,user_id:int):
   return {"message":"blog deleted"}
 
 
+
+
+if __name__ == "__main__":
+  import uvicorn
+  uvicorn.run(app,host="127.0.0.1",port=8000)
 
 
 

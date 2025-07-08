@@ -5,7 +5,7 @@ import BlogDisplay from '@/components/blog/blogDisplay';
 
 export default function page () {
   return (
-    <div className='bg-[#f3f3eb]'>
+    <div className='bg-[#faf5f5]'>
       <BlogNavbar/>
       <BlogDisplay/>
       

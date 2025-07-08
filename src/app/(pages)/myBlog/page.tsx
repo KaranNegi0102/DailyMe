@@ -4,13 +4,14 @@ import axios from "axios";
 import { useAppSelector, useAppDispatch } from "@/app/hooks/hooks";
 import { fetchUserData } from "@/app/redux/slices/authSlice";
 import Image from "next/image";
-
+import MyBlogNavbar from "@/components/myBlog/navbar";
 
 interface Blog {
   id: number;
   title: string;
   content: string;
   owner_id: number;
+  created_at: string;
   image_url: string;
 }
 
@@ -32,7 +33,7 @@ export default function Page() {
     axios
       .get(`http://localhost:8000/myblogs?user_id=${userData.id}`)
       .then((res) => {
-        console.log("my response is ",res.data)
+        console.log("my response is ", res.data);
         setBlogs(res.data);
         setLoading(false);
       })
@@ -44,15 +45,14 @@ export default function Page() {
 
   return (
     <div className="min-h-screen bg-[#f6ebeb] p-8">
-      <h1 className="text-4xl font-bold playfair-display text-[#e08c8c] text-center mb-10">
-        BlogHub
-      </h1>
+      <MyBlogNavbar/>
+
       <div className="flex justify-between items-start mb-8">
         <div>
-          <h1 className="text-3xl font-bold indie-flower-regular text-black mb-2">
+          <h1 className="text-3xl font-bold delius-swash-caps-regular text-black mb-2">
             {userData ? `Welcome, ${userData.username}` : "Your Name"}
           </h1>
-          <p className="text-gray-600 indie-flower-regular ">Your Blogs</p>
+          <p className="text-gray-600 delius-swash-caps-regular ">Your Blogs</p>
         </div>
         <a
           href="/createBlog"
@@ -82,10 +82,13 @@ export default function Page() {
                 className="w-full h-68 object-cover"
               />
               <div className="p-4 flex flex-col flex-1 items-center">
-                <h2 className="text-2xl font-bold indie-flower-regular mt-6 mb-4 text-black tracking-wide">
+                <h2 className="text-xl font-bold indie-flower-regular mt-6 mb-4 text-black tracking-wide">
+                  {blog.created_at}
+                </h2>
+                <h2 className="text-2xl font-bold delius-swash-caps-regular mt-6 mb-4 text-black tracking-wide">
                   {blog.title}
                 </h2>
-                <p className="text-gray-600 mb-4 indie-flower-regular mt-4 text-center">
+                <p className="text-gray-600 mb-4 delius-swash-caps-mix mt-4 text-center">
                   {blog.content.length > 120
                     ? blog.content.slice(0, 70) + "..."
                     : blog.content}

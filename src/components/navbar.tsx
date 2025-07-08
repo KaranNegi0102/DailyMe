@@ -6,7 +6,7 @@ import { fetchUserData } from "@/app/redux/slices/authSlice";
 
 export default function Navbar() {
   const dispatch = useAppDispatch();
-  const { isLoggedIn , userData } = useAppSelector((state) => state.auth);
+  const { isLoggedIn, userData } = useAppSelector((state) => state.auth);
 
   console.log("this is islogged in navbar", isLoggedIn);
   console.log("this is userData in navbar", userData);
@@ -17,7 +17,7 @@ export default function Navbar() {
 
   return (
     <nav className="flex justify-between items-center p-6 max-w-7xl mx-auto">
-      <div className="text-2xl font-bold text-indigo-600">BlogHub</div>
+      <div className="text-2xl font-bold text-indigo-600">DailyME</div>
       <div className="space-x-6">
         {isLoggedIn ? (
           <>

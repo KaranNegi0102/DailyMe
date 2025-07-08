@@ -20,14 +20,12 @@ export default function Login() {
 
   axios.defaults.withCredentials = true; // globally
 
-
   const onSubmit = async (data: LoginFormData) => {
     setIsLoading(true);
     setErrorMessage("");
 
     try {
-      const response = await axios.post("http://localhost:8000/login", data,
-        {
+      const response = await axios.post("http://localhost:8000/login", data, {
         withCredentials: true,
       });
       console.log(response);
@@ -46,7 +44,7 @@ export default function Login() {
         {/* Header */}
         <div className="text-center mb-8">
           <Link href="/" className="inline-block">
-            <h1 className="text-3xl font-bold text-indigo-600 mb-2">BlogHub</h1>
+            <h1 className="text-3xl font-bold text-indigo-600 mb-2">DailyME</h1>
           </Link>
           <p className="text-gray-600">Welcome back to your writing journey</p>
         </div>
@@ -269,7 +267,7 @@ export default function Login() {
               </div>
               <div className="relative flex justify-center text-sm">
                 <span className="px-2 bg-white text-gray-500">
-                  New to BlogHub?
+                  New to DailyME?
                 </span>
               </div>
             </div>

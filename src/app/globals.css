@@ -19,10 +19,20 @@
   font-weight: 700;
   font-style: normal;
 }
+.indie-flower-plain {
+  font-family: "Indie Flower", cursive;
+  font-weight: 200;
+  font-style: normal;
+}
 
 .delius-swash-caps-regular {
   font-family: "Delius Swash Caps", cursive;
   font-weight: 600;
+  font-style: normal;
+}
+.delius-swash-caps-mix {
+  font-family: "Delius Swash Caps", cursive;
+  font-weight: 300;
   font-style: normal;
 }
 

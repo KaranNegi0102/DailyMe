@@ -1,8 +1,12 @@
 import jwt
 from datetime import datetime , timedelta
+import os
+from dotenv import load_dotenv
 
-SECRET_KEY = "blogSecret"
-ALGORITHM = "HS256"
+load_dotenv()
+
+SECRET_KEY = os.getenv("SECRET_KEY")
+ALGORITHM = os.getenv("ALGORITHM")
 
 def create_token(data:dict,expires_delta : timedelta = timedelta(days=7)):
   to_encode = data.copy()

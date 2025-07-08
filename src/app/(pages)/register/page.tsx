@@ -43,7 +43,7 @@ export default function Register() {
         {/* Header */}
         <div className="text-center mb-8">
           <Link href="/" className="inline-block">
-            <h1 className="text-3xl font-bold text-indigo-600 mb-2">BlogHub</h1>
+            <h1 className="text-3xl font-bold text-indigo-600 mb-2">DailyME</h1>
           </Link>
           <p className="text-gray-600">Join our community of writers</p>
         </div>
