@@ -6,6 +6,7 @@ import Image from "next/image";
 import { fetchUserData } from "@/app/redux/slices/authSlice";
 import { useAppSelector, useAppDispatch } from "@/app/hooks/hooks";
 import { useRouter } from "next/navigation";
+import { ArrowLeft, Trash2, Shredder } from "lucide-react";
 
 interface Blog {
   id: number;
@@ -117,9 +118,40 @@ export default function BlogInfoPage() {
 
   return (
     <div className="min-h-screen bg-white text-black p-8">
-      <h1 className="text-5xl font-bold delius-swash-caps-regular mb-4 text-center">
-        {blog.title}
-      </h1>
+      <div className="flex items-center justify-between mb-6">
+        <button
+          onClick={() => router.back()}
+          className="p-2  hover:text-gray-900 rounded-full hover:bg-gray-100 transition-colors"
+        >
+          <ArrowLeft className="w-6 h-6 text-gray-600 cursor-pointer" />
+        </button>
+        <h1 className="text-5xl font-bold delius-swash-caps-regular text-center flex-1">
+          {blog.title}
+        </h1>
+        {userData.id === blog.owner_id && (
+          <div className="relative">
+            <button
+              onClick={() => setShowDropdown((prev) => !prev)}
+              className="px-4 py-2 text-gray-800 cursor-pointer rounded-full hover:bg-gray-100"
+            >
+              <Trash2 />
+            </button>
+            {showDropdown && (
+              <div className="absolute top-full mt-2 right-0 bg-white border rounded-md shadow z-10 min-w-[220px]">
+                <button
+                  onClick={handleDelete}
+                  className="block w-full text-left px-4 py-2 cursor-pointer text-red-600 hover:bg-red-100"
+                >
+                  <div className="flex items-center gap-2">
+                    <Shredder />
+                    <span>Confirm Delete</span>
+                  </div>
+                </button>
+              </div>
+            )}
+          </div>
+        )}
+      </div>
       <p className="text-center text-gray-500 indie-flower-regular mb-8">
         Published on {blog.created_at}
       </p>
@@ -134,8 +166,11 @@ export default function BlogInfoPage() {
         {blog.content}
       </p>
       <div className="flex flex-row justify-between items-center mt-8 mb-2">
-        <span className="text-2xl text-gray-600 delius-swash-caps-regular">
-          by {blog.author}
+        <span className="text-1xl text-gray-600 delius-swash-caps-mix">
+          published by{" "}
+          <span className="font-bold text-2xl text-gray-900 underline delius-swash-caps-regular">
+            {blog.author}
+          </span>
         </span>
         <button
           onClick={handleLike}
@@ -147,26 +182,6 @@ export default function BlogInfoPage() {
           {liked ? `💖 ${likes} ` : `💖 ${likes} Likes `}
         </button>
       </div>
-      {userData.id === blog.owner_id && (
-        <div className="absolute top-4 right-8 z-30">
-          <button
-            onClick={() => setShowDropdown((prev) => !prev)}
-            className="px-4 py-2 bg-gray-200 rounded shadow hover:bg-gray-300"
-          >
-            ⋮
-          </button>
-          {showDropdown && (
-            <div className="absolute top-full mt-2 right-0 bg-white border rounded-md shadow z-10 min-w-[120px]">
-              <button
-                onClick={handleDelete}
-                className="block w-full text-left px-4 py-2 cursor-pointer text-red-600  hover:bg-red-100"
-              >
-                Delete
-              </button>
-            </div>
-          )}
-        </div>
-      )}
     </div>
   );
 }

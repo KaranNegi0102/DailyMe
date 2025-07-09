@@ -3,6 +3,7 @@ import React, { useEffect } from "react";
 import Link from "next/link";
 import { useAppDispatch, useAppSelector } from "@/app/hooks/hooks";
 import { fetchUserData } from "@/app/redux/slices/authSlice";
+import { Facebook, Twitter, Instagram, LogOut } from "lucide-react";
 
 export default function Navbar() {
   const dispatch = useAppDispatch();
@@ -16,39 +17,64 @@ export default function Navbar() {
   }, [dispatch]);
 
   return (
-    <nav className="flex justify-between items-center p-6 max-w-7xl mx-auto">
-      <div className="text-2xl font-bold text-indigo-600">DailyME</div>
-      <div className="space-x-6">
-        {isLoggedIn ? (
-          <>
-            <Link
-              href="/"
-              className="text-gray-600 hover:text-indigo-600 transition-colors"
-            >
-              Home
-            </Link>
-            <button
-              className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition-colors"
-              // onClick={handleLogout} // implement logout if needed
-            >
-              Logout
-            </button>
-          </>
-        ) : (
-          <>
-            <Link
-              href="/login"
-              className="text-gray-600 hover:text-indigo-600 transition-colors"
-            >
-              Login
-            </Link>
-            <Link
-              href="/register"
-              className="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition-colors"
-            >
-              Sign Up
-            </Link>
-          </>
+    <nav className="flex justify-between items-center bg-[#efb9b9] p-6 max-w-7xl mx-auto">
+      {/* Left side navigation */}
+      <div className="flex items-center delius-swash-caps-regular ml-30 space-x-6">
+        <Link
+          href="/"
+          className="text-black hover:text-white hover:underline transition-colors "
+        >
+          Home
+        </Link>
+        <Link
+          href="/about"
+          className="text-black hover:text-white hover:underline transition-colors"
+        >
+          About
+        </Link>
+        <Link
+          href="/blogingPage"
+          className="text-black hover:text-white hover:underline transition-colors"
+        >
+          Blogs
+        </Link>
+        <Link
+          href="/contact"
+          className="text-black hover:text-white hover:underline transition-colors"
+        >
+          Contact
+        </Link>
+      </div>
+      {/* Right side social icons */}
+      <div className="flex items-center  mr-30 space-x-4">
+        <a
+          href="https://facebook.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Facebook"
+        >
+          <Facebook className="w-6 h-6 text-black hover:text-white transition-colors" />
+        </a>
+        <a
+          href="https://twitter.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Twitter"
+        >
+          <Twitter className="w-6 h-6 text-black hover:text-white transition-colors" />
+        </a>
+        <a
+          href="https://instagram.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Instagram"
+        >
+          <Instagram className="w-6 h-6 text-black hover:text-white transition-colors" />
+        </a>
+        {isLoggedIn && (
+          <button type="button" title="Logout" className="p-1 rounded">
+            <LogOut className="w-6 h-6 text-black hover:text-red-900 cursor-pointer " />
+          </button>
         )}
       </div>
     </nav>

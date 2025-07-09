@@ -14,16 +14,16 @@ export default function SimpleNavbar() {
         >
           Your Blog&apos;s </Link>
         <Link
+          href="/"
+          className="text-gray-600 hover:underline  delius-swash-caps-regular hover:text-gray-900 transition-colors"
+        >
+          Home
+        </Link>
+        <Link
           href="/about"
           className="text-gray-600 hover:underline  delius-swash-caps-regular hover:text-gray-900 transition-colors"
         >
           About
-        </Link>
-        <Link
-          href="/gallery"
-          className="text-gray-600 hover:underline  delius-swash-caps-regular hover:text-gray-900 transition-colors"
-        >
-          Gallery
         </Link>
         <Link
           href="/contact"
