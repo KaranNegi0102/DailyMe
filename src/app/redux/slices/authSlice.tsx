@@ -4,7 +4,7 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 
 interface USER_DATA_TYPE {
-  id: string;
+  id: number;
   username: string;
   email: string;
   password: string;

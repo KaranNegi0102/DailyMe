@@ -149,10 +149,20 @@ def create_blog(blog: BlogIn, user_id: int):
 @app.get("/blogs")
 def get_all_blogs():
     cur = get_cursor()
-    cur.execute("SELECT * FROM blogs")
+    cur.execute("""
+        SELECT 
+            blogs.id, blogs.title, blogs.content, blogs.owner_id,
+            blogs.created_at, blogs.image_url, users.username,
+            COUNT(likes.blog_id) as like_count
+        FROM blogs
+        JOIN users ON blogs.owner_id = users.id
+        LEFT JOIN likes ON blogs.id = likes.blog_id
+        GROUP BY blogs.id, users.username
+        ORDER BY blogs.created_at DESC
+    """)
     blogs = cur.fetchall()
     # print(f"blogs area : {blogs}")
-    return [{"id": b[0], "title":b[1], "content":b[2], "owner_id":b[3], "created_at":b[4] , "image_url":b[5] } for b in blogs]  #list comprehensions  
+    return [{"id": b[0], "title":b[1], "content":b[2], "owner_id":b[3], "created_at":b[4] , "image_url":b[5] , "author":b[6] , "likes":b[7] } for b in blogs]  #list comprehensions  
 
 
 @app.get("/myblogs")
@@ -162,9 +172,23 @@ def get_my_blog(user_id:int):
   blogs=cur.fetchall()
   return [{"id":b[0], "title":b[1], "content":b[2],"owner_id":b[3] , "created_at":b[4] , "image_url":b[5] } for b in blogs]
 
-  
 
-@app.post("/blogs/{blog_id}")
+@app.get("/blogInfo/{blog_id}")
+def get_blog_info(blog_id:int):
+  cur=get_cursor()
+  cur.execute("""
+        SELECT 
+            blogs.id, blogs.title, blogs.content, blogs.owner_id,
+            blogs.created_at, blogs.image_url, users.username
+        FROM blogs
+        JOIN users ON blogs.owner_id = users.id
+        WHERE blogs.id = %s
+    """,(blog_id,))
+  blog=cur.fetchone()
+  return { "id":blog[0], "title":blog[1], "content":blog[2],"owner_id":blog[3] , "created_at":blog[4] , "image_url":blog[5] ,"author":blog[6] }
+
+
+@app.post("/blogDelete")
 def delete_blog(blog_id:int,user_id:int):
   cur = get_cursor()
   cur.execute("SELECT owner_id FROM blogs WHERE id=%s",(blog_id,))
@@ -180,11 +204,37 @@ def delete_blog(blog_id:int,user_id:int):
 
 
 
+@app.post("/like")
+def like_blog(blog_id:int,user_id:int):
+  cur=get_cursor()
+  cur.execute("SELECT * FROM likes WHERE blog_id=%s AND user_id=%s",(blog_id,user_id))
+  existing=cur.fetchone()
+  if existing:
+    raise HTTPException(status_code=400,detail="you have already liked this blog")
+  cur.execute("INSERT INTO likes (blog_id,user_id) VALUES (%s,%s)",(blog_id,user_id))
+  conn.commit()
+  return {"message":"blog liked"}
+
+@app.get("/likes/{blog_id}")
+def get_likes(blog_id: int):
+    cur = get_cursor()
+    cur.execute("SELECT COUNT(*) FROM likes WHERE blog_id=%s", (blog_id,))
+    count = cur.fetchone()[0]
+    return {"likes": count}
+
+@app.get("/isLiked")
+def is_liked(blog_id: int, user_id: int):
+    cur = get_cursor()
+    cur.execute("SELECT * FROM likes WHERE blog_id=%s AND user_id=%s", (blog_id, user_id))
+    liked = cur.fetchone()
+    return {"liked": bool(liked)}
+
+
+
+
+
+
 
 if __name__ == "__main__":
   import uvicorn
   uvicorn.run(app,host="127.0.0.1",port=8000)
-
-
-
-

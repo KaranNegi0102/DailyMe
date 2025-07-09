@@ -94,7 +94,7 @@ export default function Page() {
                     : blog.content}
                 </p>
                 <a
-                  href={`/blog/${blog.id}`}
+                  href={`/blogInfo/${blog.id}`}
                   className="mt-auto inline-block indie-flower-regular text-black indie-flower-regular underline font-semibold tracking-wide"
                 >
                   Read More
