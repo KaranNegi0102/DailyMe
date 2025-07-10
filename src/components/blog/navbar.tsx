@@ -3,7 +3,11 @@ import React from "react";
 import Link from "next/link";
 import { Twitter, Youtube, Instagram } from "lucide-react";
 
+
+
+
 export default function SimpleNavbar() {
+
   return (
     <nav className="flex justify-between bg-gradient-to-br from-purple-50 via-purple-50 to-pink-50 items-center p-4 max-w-7xl">
       {/* Left: Navigation */}
@@ -25,11 +29,12 @@ export default function SimpleNavbar() {
         >
           About
         </Link>
+        
         <Link
-          href="/contact"
+          href="/profile"
           className="text-gray-600 hover:underline  delius-swash-caps-regular r hover:text-gray-900 transition-colors"
         >
-          Contact
+          Profile
         </Link>
       </div>
       {/* Center: Website Name */}

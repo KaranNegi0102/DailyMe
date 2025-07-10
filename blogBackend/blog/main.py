@@ -33,7 +33,7 @@ class RegisterUserIn(BaseModel):
   email:str
 
 class LoginUserIn(BaseModel):
-  username:str
+  email:str
   password:str
 
 
@@ -42,7 +42,10 @@ class BlogIn(BaseModel):
   content:str
   image_url:str | None = None
 
-
+class UpdateUser(BaseModel):
+    username: str 
+    email: str 
+    phone: str 
 
 
 class BlogUpdate(BaseModel):
@@ -73,7 +76,7 @@ def register(user:RegisterUserIn):
 def login(user:LoginUserIn,response:Response):
   cur = get_cursor()
   try:
-    cur.execute("SELECT * FROM users WHERE username=%s AND password=%s",(user.username,user.password))
+    cur.execute("SELECT * FROM users WHERE email=%s AND password=%s",(user.email,user.password))
     usersData = cur.fetchone()
 
     print(f"usersData is {usersData}")
@@ -109,21 +112,76 @@ def login(user:LoginUserIn,response:Response):
   except Exception as e:
     raise HTTPException(status_code=400,detail="invalid username or password in the login backend code")
 
+@app.put("/update-profile")
+def update_profile(user_update: UpdateUser,user_id:int):
+    print(user_update)
+    print(user_id)
+    
+    update_fields = []
+    values = []
+
+    if user_update.username:
+        update_fields.append("username = %s")
+        values.append(user_update.username)
+    if user_update.email:
+        update_fields.append("email = %s")
+        values.append(user_update.email)
+    if user_update.phone:
+        update_fields.append("phone = %s")
+        values.append(user_update.phone)
+
+    if not update_fields:
+        raise HTTPException(status_code=400, detail="Nothing to update")
+
+    values.append(user_id)
+    query = f"UPDATE users SET {', '.join(update_fields)} WHERE id = %s"
+
+    cur = get_cursor()
+    cur.execute(query, tuple(values))
+    conn.commit()
+
+    return {"message": "Profile updated successfully"}
+
+
+
+# this was working fine but as soon as i updated the user it wasnt giving me the updated version thats why we have to deciode the token again and fetched the data again
+# @app.get("/checkUser")
+# def check_user(auth_token:str = Cookie()):
+  
+#   # print(f"this is auth token in backend python {auth_token}")
+
+#   if not auth_token:
+#     raise HTTPException(status_code=401,detail="unauthorized access")
+#   try:
+#     user = decode_token(auth_token)
+#     # print(f"this is user in backend python {user}")
+#     return user
+#   except Exception as e:
+#     raise HTTPException(status_code=401,detail="unauthorized")
 
 
 @app.get("/checkUser")
-def check_user(auth_token:str = Cookie()):
-  
-  # print(f"this is auth token in backend python {auth_token}")
+def check_user(auth_token: str = Cookie()):
+    if not auth_token:
+        raise HTTPException(status_code=401, detail="unauthorized")
+    try:
+        user_payload = decode_token(auth_token)
+        user_id = user_payload.get("id")
 
-  if not auth_token:
-    raise HTTPException(status_code=401,detail="unauthorized access")
-  try:
-    user = decode_token(auth_token)
-    # print(f"this is user in backend python {user}")
-    return user
-  except Exception as e:
-    raise HTTPException(status_code=401,detail="unauthorized")
+        cur = get_cursor()
+        cur.execute("SELECT id, username, email, phone FROM users WHERE id=%s", (user_id,))
+        user = cur.fetchone()
+        if not user:
+            raise HTTPException(status_code=404, detail="User not found")
+
+        return {
+            "id": user[0],
+            "username": user[1],
+            "email": user[2],
+            "phone": user[3],
+        }
+    except Exception as e:
+        raise HTTPException(status_code=401, detail="unauthorized")
 
 
 # route banana h for image upload
@@ -202,6 +260,10 @@ def delete_blog(blog_id:int,user_id:int):
   conn.commit()
   return {"message":"blog deleted"}
 
+@app.post("/logOut")
+def logout(response: Response):
+  response.delete_cookie(key="auth_token")
+  return {"message": "Logged out successfully"}
 
 
 @app.post("/like")

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useAppDispatch, useAppSelector } from "@/app/hooks/hooks";
 import { fetchUserData } from "@/app/redux/slices/authSlice";
 import { Facebook, Twitter, Instagram, LogOut } from "lucide-react";
+import axios from "axios";
 
 export default function Navbar() {
   const dispatch = useAppDispatch();
@@ -15,6 +16,22 @@ export default function Navbar() {
   useEffect(() => {
     dispatch(fetchUserData());
   }, [dispatch]);
+
+  async function handleLogout() {
+    try {
+      const response = await axios.post(
+        "http://localhost:8000/logOut",
+        {},
+        {
+          withCredentials: true,
+        }
+      );
+      console.log(response.data.message);
+      window.location.reload();
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   return (
     <nav className="flex justify-between items-center bg-[#efb9b9] p-6 max-w-7xl mx-auto">
@@ -72,7 +89,12 @@ export default function Navbar() {
           <Instagram className="w-6 h-6 text-gray-800 animate-bounce hover:text-white transition-colors" />
         </a>
         {isLoggedIn && (
-          <button type="button" title="Logout" className="p-1  rounded">
+          <button
+            type="button"
+            onClick={handleLogout}
+            title="Logout"
+            className="p-1  rounded"
+          >
             <LogOut className="w-6 h-6 text-white hover:text-red-900 animate-bounce cursor-pointer " />
           </button>
         )}

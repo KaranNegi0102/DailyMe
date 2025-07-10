@@ -24,9 +24,11 @@ export default function MyBlogNavbar() {
       </div>
       {/* Right: Profile button */}
       <div>
-        <button className="bg-gray-200 hover:bg-gray-300 delius-swash-caps-regular text-gray-800 font-semibold py-2 px-5 rounded-full">
-          Profile
-        </button>
+        <Link href="/profile">
+            <span className="text-lg font-semibold delius-swash-caps-regular  hover:text-gray-900 text-gray-700 hover:underline cursor-pointer">
+              Profile
+            </span>
+        </Link>
       </div>
     </nav>
   );

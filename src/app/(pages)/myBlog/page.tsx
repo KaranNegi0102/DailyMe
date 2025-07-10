@@ -199,7 +199,7 @@ export default function Page() {
               </p>
               <a
                 href="/createBlog"
-                className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 indie-flower-regular font-semibold text-lg"
+                className="inline-flex items-center gap-3 px-8 py-4 bg-gray-900 text-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 indie-flower-regular font-semibold text-lg"
               >
                 <svg
                   className="w-5 h-5"
