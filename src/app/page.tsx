@@ -4,6 +4,7 @@ import Navbar from "./../components/navbar";
 import Image from "next/image";
 import { useAppDispatch, useAppSelector } from "@/app/hooks/hooks";
 import { fetchUserData } from "@/app/redux/slices/authSlice";
+import Footer from "@/components/footer";
 
 export default function Home() {
   const dispatch = useAppDispatch();
@@ -14,51 +15,158 @@ export default function Home() {
   }, [dispatch]);
 
   return (
-    <div className="h-full bg-[#f7ebeb]">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-purple-50 to-pink-50">
       <Navbar />
 
-      <div className="text-black mt-9 mb-9 ">
-        <h3 className="text-2xl text-center delius-swash-caps-mix ">
-          A Blog Verse Where
-        </h3>
-        <h3 className="text-4xl mt-2 text-center delius-swash-caps-regular">
-          Every Thought Deserves a Page
-        </h3>
-      </div>
-      <div className="mt-6 mb-8 relative flex justify-center items-center">
-        <Image
-          src="https://res.cloudinary.com/dyia5zkkd/image/upload/v1751986603/anime-girl-and-dog-bound-by-loyalty-and-oath-8f-1920x1080_r9a0ue.jpg"
-          alt="Blogging Inspiration"
-          width={800}
-          height={256}
-          className="shadow-lg w-full h-90 object-cover"
-        />
-        <div className="absolute inset-0 flex flex-col items-center justify-center">
-          {isLoggedIn ? (
-            <a
-              href="/blogingPage"
-              className="bg-[#efb9b9] delius-swash-caps-regular text-white px-8 py-3 rounded-lg text-lg font-semibold hover:bg-gray-900 transition-all duration-200 shadow-lg hover:shadow-xl"
-            >
-              Let&apos;s Explore
-            </a>
-          ) : (
-            <div className="flex gap-6">
-              <a
-                href="/register"
-                className="delius-swash-caps-regular text-white border-2 border-white px-8 py-3 rounded-lg text-lg font-semibold hover:bg-gray-900 hover:text-white transition-all duration-200 shadow-lg hover:shadow-xl"
-              >
-                Get Started
-              </a>
-              <a
-                href="/login"
-                className="delius-swash-caps-regular text-gray-800 border-2 border-white px-8 py-3 rounded-lg text-lg font-semibold hover:bg-gray-900 hover:text-white transition-all duration-200 shadow-lg hover:shadow-xl"
-              >
-                Login
-              </a>
+      {/* Hero Section */}
+      <div className="relative overflow-hidden">
+        {/* Background Pattern */}
+        <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
+        
+        {/* Main Content */}
+        <div className="relative z-10 container mx-auto px-4 py-8">
+          {/* Header Text */}
+          <div className="text-center mb-12 animate-fade-in">
+            <div className="inline-block ">
+              <h1 className="text-5xl md:text-7xl font-bold text-gray-700 bg-clip-text  delius-swash-caps-regular leading-tight">
+                DailyMe
+              </h1>
+              <div className="h-1 w-full bg-gray-900 rounded-full mt-2 animate-pulse"></div>
             </div>
-          )}
+            <p className="text-xl md:text-2xl text-gray-700 mt-6 max-w-2xl animate-pulse mx-auto delius-swash-caps-mix">
+              Where Every Thought Deserves a Page
+            </p>
+            <p className="text-lg text-gray-600 mt-4 max-w-xl delius-swash-caps-mix mx-auto">
+              Join thousands of writers sharing their stories, insights, and creativity in our vibrant blogging community.
+            </p>
+          </div>
+
+          {/* Hero Image Section */}
+          <div className="relative max-w-6xl mx-auto mb-16">
+            <div className="relative group">
+              {/* Glow effect */}
+              <div className="absolute -inset-4 bg-gradient-to-r from-purple-600 to-red-400  rounded-3xl blur-lg opacity-20 group-hover:opacity-30 transition-opacity duration-500"></div>
+              
+              {/* Main image container */}
+              <div className="relative bg-white/80 backdrop-blur-sm rounded-3xl p-2 shadow-2xl">
+                <Image
+                  src="https://res.cloudinary.com/dyia5zkkd/image/upload/v1751986603/anime-girl-and-dog-bound-by-loyalty-and-oath-8f-1920x1080_r9a0ue.jpg"
+                  alt="Blogging Inspiration"
+                  width={1200}
+                  height={600}
+                  className="w-full h-96 md:h-[500px] object-cover rounded-2xl"
+                />
+                
+                {/* Overlay with CTA */}
+                <div className="absolute inset-0 rounded-2xl flex items-center justify-center">
+                  <div className="text-center transform hover:scale-105 transition-transform duration-300">
+                    {isLoggedIn ? (
+                      <a
+                        href="/blogingPage"
+                        className="group relative inline-flex items-center justify-center hover:bg-gray-900 px-8 py-4 text-lg font-semibold text-white  rounded-full shadow-lg hover:shadow-xl transition-all duration-300 delius-swash-caps-regular"
+                      >
+                        <span className="relative z-10">Let&apos;s Explore</span>
+                        <div className="absolute inset-0 border-white border-2 hover:bg-gray-900 rounded-full  group-hover:opacity-100 transition-opacity duration-300"></div>
+                      </a>
+                    ) : (
+                      <div className="flex flex-col sm:flex-row gap-4">
+                        <a
+                          href="/register"
+                          className="group relative inline-flex items-center animate-float justify-center hover:bg-gray-900  px-8 py-4 text-lg font-semibold text-white  rounded-full shadow-lg hover:shadow-xl transition-all duration-300 delius-swash-caps-regular"
+                        >
+                          <span className="relative z-10 ">Get Started</span>
+                          <div className="absolute inset-0 border-white border-2 hover:bg-gray-900 rounded-full  group-hover:opacity-100 transition-opacity duration-300"></div>
+                        </a>
+                        <a
+                          href="/login"
+                          className="group relative inline-flex items-center animate-float justify-center px-8 py-4 border-white hover:text-white border-2 hover:bg-gray-900 text-lg font-semibold text-white    rounded-full shadow-lg hover:shadow-xl  transition-all duration-300 delius-swash-caps-regular"
+                        >
+                          Login
+                        </a>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Call to Action */}
+          <div className="text-center">
+            <div className="inline-block bg-white/60 backdrop-blur-sm rounded-3xl p-8 shadow-xl">
+              <h2 className="text-3xl font-bold text-gray-800 mb-4 delius-swash-caps-regular">
+                Ready to Start Your Journey?
+              </h2>
+              <p className="text-gray-600 mb-6 max-w-md delius-swash-caps-regular mx-auto">
+                Join thousands of writers who have already discovered the power of sharing their stories.
+              </p>
+              {!isLoggedIn && (
+                <a
+                  href="/register"
+                  className="inline-flex items-center justify-center px-8 py-4 text-lg font-semibold text-white bg-gradient-to-r from-purple-600 to-pink-600 rounded-full shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 delius-swash-caps-regular"
+                >
+                  Start Writing Today
+                </a>
+              )}
+            </div>
+          </div>
         </div>
+
+        {/* Floating Elements */}
+        <div className="absolute top-20 left-10 w-20 h-20 bg-purple-300 rounded-xl opacity-20 animate-float"></div>
+        <div className="absolute top-40 right-20 w-16 h-16 bg-pink-300 rounded-md opacity-20 animate-float-delayed"></div>
+        <div className="absolute bottom-20 left-20 w-12 h-12 bg-blue-300 rounded-full opacity-20 animate-float"></div>
       </div>
+
+      <Footer />
+
+      <style jsx>{`
+        @keyframes fade-in {
+          from {
+            opacity: 0;
+            transform: translateY(20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        
+        @keyframes float {
+          0%, 100% {
+            transform: translateY(0px);
+          }
+          50% {
+            transform: translateY(-20px);
+          }
+        }
+        
+        @keyframes float-delayed {
+          0%, 100% {
+            transform: translateY(0px);
+          }
+          50% {
+            transform: translateY(-15px);
+          }
+        }
+        
+        .animate-fade-in {
+          animation: fade-in 1s ease-out;
+        }
+        
+        .animate-float {
+          animation: float 6s ease-in-out infinite;
+        }
+        
+        .animate-float-delayed {
+          animation: float-delayed 8s ease-in-out infinite;
+        }
+        
+        .bg-grid-pattern {
+          background-image: radial-gradient(circle at 1px 1px, rgba(255,255,255,0.3) 1px, transparent 0);
+          background-size: 20px 20px;
+        }
+      `}</style>
     </div>
   );
 }

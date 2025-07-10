@@ -1,12 +1,12 @@
 "use client";
 import { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import axios from "axios";
 import Image from "next/image";
 import { fetchUserData } from "@/app/redux/slices/authSlice";
 import { useAppSelector, useAppDispatch } from "@/app/hooks/hooks";
-import { useRouter } from "next/navigation";
-import { ArrowLeft, Trash2, Shredder } from "lucide-react";
+import {  Trash2, Shredder } from "lucide-react";
+import MyBlogNavbar from "@/components/myBlog/navbar";
 
 interface Blog {
   id: number;
@@ -21,17 +21,9 @@ interface Blog {
 export default function BlogInfoPage() {
   const params = useParams();
   const blogId = params.blog_id;
-
-  // console.log("blogId is ", blogId);
-  const userData = useAppSelector((state) => state.auth.userData);
-  console.log("this is userdata in personal blog ", userData);
-  // console.log("this is userdata in personal id ", userData.id);
-  const dispatch = useAppDispatch();
   const router = useRouter();
-
-  useEffect(() => {
-    dispatch(fetchUserData());
-  }, [dispatch]);
+  const dispatch = useAppDispatch();
+  const userData = useAppSelector((state) => state.auth.userData);
 
   const [blog, setBlog] = useState<Blog | null>(null);
   const [loading, setLoading] = useState(true);
@@ -46,13 +38,10 @@ export default function BlogInfoPage() {
   useEffect(() => {
     const fetchBlog = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:8000/blogInfo/${blogId}`
-        );
-        console.log("this is response data", response.data);
+        const response = await axios.get(`http://localhost:8000/blogInfo/${blogId}`);
         setBlog(response.data);
       } catch (error) {
-        console.log(error);
+        console.log(error)
         setBlog(null);
       } finally {
         setLoading(false);
@@ -63,124 +52,165 @@ export default function BlogInfoPage() {
 
   useEffect(() => {
     if (blogId) {
-      axios
-        .get(`http://localhost:8000/likes/${blogId}`)
+      axios.get(`http://localhost:8000/likes/${blogId}`)
         .then((res) => setLikes(res.data.likes))
-        .catch((err) => console.error("error fetching like", err));
+        .catch(console.error);
     }
   }, [blogId]);
 
   useEffect(() => {
     if (userData && blogId) {
-      axios
-        .get(`http://localhost:8000/isLiked`, {
-          params: { blog_id: blogId, user_id: userData.id },
-        })
+      axios.get(`http://localhost:8000/isLiked`, {
+        params: { blog_id: blogId, user_id: userData.id },
+      })
         .then((res) => setLiked(res.data.liked))
-        .catch((err) => console.error("error fetching isLiked", err));
+        .catch(console.error);
     }
   }, [userData, blogId]);
 
   const handleLike = async () => {
-    if (!userData) return;
+    if (!userData || liked) return;
     try {
-      const userId = userData.id;
-
       await axios.post(`http://localhost:8000/like`, null, {
-        params: { blog_id: blogId, user_id: userId },
+        params: { blog_id: blogId, user_id: userData.id },
       });
-
       setLikes((prev) => prev + 1);
       setLiked(true);
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 
   const handleDelete = async () => {
-    if (!userData) return;
-    if (!blog) return;
+    if (!userData || !blog) return;
     try {
       await axios.post(`http://localhost:8000/blogDelete`, null, {
         params: { blog_id: blog.id, user_id: userData.id },
       });
       alert("Blog deleted!");
-      router.push("/myBlog"); // or wherever you want to redirect
+      router.push("/myBlog");
     } catch (error) {
+      console.log(error)
       alert("Failed to delete blog.");
-      console.error(error);
     }
   };
 
-  if (loading) return <div>Loading blog...</div>;
-  if (!blog) return <div>Blog not found hahahah .</div>;
-  if (!userData) return <div>Loading user...</div>;
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-violet-50 via-purple-50 to-indigo-50">
+        <MyBlogNavbar />
+        <div className="flex items-center justify-center min-h-[80vh]">
+          <p className="text-xl text-gray-600">Loading blog...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!blog) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-violet-50 via-purple-50 to-indigo-50">
+        <MyBlogNavbar />
+        <div className="flex items-center justify-center min-h-[80vh]">
+          <p className="text-xl text-gray-600">Blog not found 😢</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <div className="min-h-screen bg-white text-black p-8">
-      <div className="flex items-center justify-between mb-6">
-        <button
+    <div className="min-h-screen bg-gradient-to-br from-violet-50 via-purple-50 to-indigo-50">
+      <div className="relative z-10 container mx-auto px-6 py-12">
+        <div className="bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl p-8 relative">
+          {/* Back & Delete Controls */}
+          <div className="flex justify-between items-center  mb-6">
+          <button
+          type="button"
           onClick={() => router.back()}
-          className="p-2  hover:text-gray-900 rounded-full hover:bg-gray-100 transition-colors"
+          className="flex items-center gap-2 bg-white/80 cursor-pointer hover:bg-white text-gray-800 px-4 py-2 rounded-full shadow delius-swash-caps-regular transition-colors duration-200"
         >
-          <ArrowLeft className="w-6 h-6 text-gray-600 cursor-pointer" />
+          <svg
+            className="w-5 h-5"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth={2}
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M15 19l-7-7 7-7"
+            />
+          </svg>
+          Back
         </button>
-        <h1 className="text-5xl font-bold delius-swash-caps-regular text-center flex-1">
-          {blog.title}
-        </h1>
-        {userData.id === blog.owner_id && (
-          <div className="relative">
-            <button
-              onClick={() => setShowDropdown((prev) => !prev)}
-              className="px-4 py-2 text-gray-800 cursor-pointer rounded-full hover:bg-gray-100"
-            >
-              <Trash2 />
-            </button>
-            {showDropdown && (
-              <div className="absolute top-full mt-2 right-0 bg-white border rounded-md shadow z-10 min-w-[220px]">
+
+            {userData?.id === blog.owner_id && (
+              <div className="relative">
                 <button
-                  onClick={handleDelete}
-                  className="block w-full text-left px-4 py-2 cursor-pointer text-red-600 hover:bg-red-100"
+                  onClick={() => setShowDropdown(!showDropdown)}
+                  className="p-2 rounded-full hover:bg-red-100 cursor-pointer text-red-600"
                 >
-                  <div className="flex items-center gap-2">
-                    <Shredder />
-                    <span>Confirm Delete</span>
-                  </div>
+                  <Trash2 />
                 </button>
+                {showDropdown && (
+                  <div className="absolute top-full right-0 mt-2 bg-white border rounded-lg shadow-lg z-10">
+                    <button
+                      onClick={handleDelete}
+                      className="flex items-center cursor-pointer gap-2 px-4 py-2 text-red-600 hover:bg-red-50 w-full"
+                    >
+                      <Shredder />
+                      Confirm Delete
+                    </button>
+                  </div>
+                )}
               </div>
             )}
           </div>
-        )}
-      </div>
-      <p className="text-center text-gray-500 indie-flower-regular mb-8">
-        Published on {blog.created_at}
-      </p>
-      <Image
-        src={blog.image_url}
-        alt="Blog Image"
-        width={800}
-        height={400}
-        className="w-full h-[400px] object-cover rounded-xl mb-6"
-      />
-      <p className="text-lg leading-relaxed delius-swash-caps-mix text-justify">
-        {blog.content}
-      </p>
-      <div className="flex flex-row justify-between items-center mt-8 mb-2">
-        <span className="text-1xl text-gray-600 delius-swash-caps-mix">
-          published by{" "}
-          <span className="font-bold text-2xl text-gray-900 underline delius-swash-caps-regular">
-            {blog.author}
-          </span>
-        </span>
-        <button
-          onClick={handleLike}
-          className={`bg-pink-900 text-white delius-swash-caps-regular px-4 py-2 rounded-full ml-4 ${
-            liked ? "opacity-100 cursor-not-allowed" : "hover:bg-pink-600"
-          }`}
-          disabled={liked}
-        >
-          {liked ? `💖 ${likes} ` : `💖 ${likes} Likes `}
-        </button>
+
+          {/* Title */}
+          <h1 className="text-4xl font-bold delius-swash-caps-regular text-gray-900 mb-4 text-center">
+            {blog.title}
+          </h1>
+          <p className="text-center text-gray-600 mb-6 delius-swash-caps-mix">
+            Published on {new Date(blog.created_at).toLocaleDateString()}
+          </p>
+
+          {/* Image */}
+          <Image
+            src={blog.image_url}
+            alt={blog.title}
+            width={1200}
+            height={500}
+            className="w-full h-[400px] object-cover rounded-2xl mb-6"
+          />
+
+          {/* Content */}
+          <p className="text-lg text-gray-700 delius-swash-caps-mix leading-relaxed text-justify">
+            {blog.content}
+          </p>
+
+          {/* Footer */}
+          <div className="flex flex-col md:flex-row justify-between items-center mt-10 gap-4">
+            <span className="text-gray-600 delius-swash-caps-mix text-lg">
+              Published by{" "}
+              <span className="font-bold text-xl underline text-gray-900">
+                {blog.author}
+              </span>
+            </span>
+
+            <button
+              onClick={handleLike}
+              disabled={liked}
+              className={`px-6 py-3 text-white font-semibold rounded-full transition-all duration-300 indie-flower-regular ${
+                liked
+                  ? "bg-pink-700 cursor-not-allowed"
+                  : "bg-pink-600 hover:bg-pink-700"
+              }`}
+            >
+              {liked ? `💖 ${likes}` : `💖 ${likes} Likes`}
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );

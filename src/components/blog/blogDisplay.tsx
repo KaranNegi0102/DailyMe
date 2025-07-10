@@ -1,7 +1,8 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import Image from "next/image";
+import BlogCard from "../blog/BlogCard";
+
 
 interface Blog {
   id: number;
@@ -60,166 +61,124 @@ export default function BlogDisplay() {
     setRandomBlog(null);
   };
 
-  if (loading) return <div>Loading blogs...</div>;
-  if (error) return <div>{error}</div>;
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-16 w-16 border-4 border-purple-500 border-t-transparent mx-auto mb-4"></div>
+          <p className="text-xl text-gray-600 delius-swash-caps-regular">Loading amazing stories...</p>
+        </div>
+      </div>
+    );
+  }
 
+  if (error) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 flex items-center justify-center">
+        <div className="text-center bg-white/80 backdrop-blur-sm rounded-3xl p-8 shadow-xl">
+          <div className="text-red-500 mb-4">
+            <svg className="w-16 h-16 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z" />
+            </svg>
+          </div>
+          <p className="text-xl text-gray-700 delius-swash-caps-regular">{error}</p>
+        </div>
+      </div>
+    );
+  }
+
+  
   return (
-    <div className="min-h-screen bg-[#faf5f5] flex flex-col">
-      <h1 className="text-3xl font-bold delius-swash-caps-regular  text-left text-gray-900 mt-8 ml-8">
-        Welcome To The World Where Pixels Meet Poetry
-      </h1>
-      <div className="flex gap-4 ml-8 mt-4">
-        <button
-          onClick={handleShowRandom}
-          className="px-4 py-2 bg-gray-900 cursor-pointer text-white rounded hover:bg-gray-700"
-        >
-          Random Blog
-        </button>
-        <button
-          onClick={handleShowMostLikes}
-          className="px-4 py-2 bg-pink-700 cursor-pointer text-white rounded hover:bg-pink-900"
-        >
-          Most Likes
-        </button>
-        {(showRandom || showMostLikes) && (
-          <button
-            onClick={handleShowAll}
-            className="px-4 py-2 bg-gray-400 cursor-pointer text-white rounded hover:bg-gray-600"
-          >
-            Show All
-          </button>
-        )}
+    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50">
+      {/* Header Section */}
+      <div className="relative overflow-hidden">
+        {/* Background Pattern */}
+        <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
+        
+        <div className="relative z-10 container mx-auto px-6 ">
+          {/* Main Title */}
+          <div className="text-center mb-12">
+            <h1 className="text-4xl md:text-6xl  p-2 font-bold text-gray-900 animate-pulse bg-clip-text  delius-swash-caps-regular mb-4">
+              DailyMe
+            </h1>
+            <p className="text-xl  text-gray-600 delius-swash-caps-mix max-w-2xl mx-auto">
+              Where Pixels Meet Poetry - Discover Amazing Stories from Our Community
+            </p>
+          </div>
+          
+          {/* Filter Buttons */}
+          <div className="flex flex-wrap justify-center gap-4 mb-12">
+            <button
+              onClick={handleShowRandom}
+              className="group relative cursor-pointer inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-gray-800 to-gray-900 text-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+              </svg>
+              <span>Random Discovery</span>
+            </button>
+            
+            <button
+              onClick={handleShowMostLikes}
+              className="group relative inline-flex cursor-pointer items-center gap-2 px-6 py-3 bg-gradient-to-r from-pink-600 to-pink-700 text-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
+            >
+              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+              </svg>
+              <span>Most Loved</span>
+            </button>
+            
+            {(showRandom || showMostLikes) && (
+              <button
+                onClick={handleShowAll}
+                className="group relative inline-flex cursor-pointer items-center gap-2 px-6 py-3 bg-gradient-to-r from-gray-500 to-gray-600 text-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 10h16M4 14h16M4 18h16" />
+                </svg>
+                <span>Show All</span>
+              </button>
+            )}
+          </div>
+        </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2  lg:grid-cols-1 gap-8 p-6">
+      {/* Blog Content */}
+      <div className="container mx-auto px-6 pb-16">
         {showRandom && randomBlog ? (
-          <div
-            key={randomBlog.id}
-            className={`bg-[#faf5f5] overflow-hidden gap-4 flex flex-row`}
-          >
-            <Image
-              src={randomBlog.image_url}
-              alt="Blog"
-              width={400}
-              height={400}
-              className="w-1/2 rounded-xl  h-90 object-cover"
-            />
-            <div className="p-4 flex flex-col bg-[#ddddcb] rounded-xl flex-1 items-center">
-              <h2 className="text-xl indie-flower-regular text-gray-500 tracking-wide">
-                {randomBlog.created_at}
+          <div className="max-w-6xl mx-auto">
+            <div className="text-center mb-8">
+              <h2 className="text-3xl font-bold text-gray-800 delius-swash-caps-regular mb-2">
+                ✨ Your Random Discovery
               </h2>
-              <h2 className="text-3xl  delius-swash-caps-regular mt-5 text-black tracking-wide">
-                {randomBlog.title}
-              </h2>
-              <p className="text-gray-600 mb-4 delius-swash-caps-mix mt-3 text-center">
-                {randomBlog.content.length > 120
-                  ? randomBlog.content.slice(0, 520) + "..."
-                  : randomBlog.content}
-              </p>
-              <div className="w-full flex justify-between items-center mt-auto pt-2">
-                <a
-                  href={`/blogInfo/${randomBlog.id}`}
-                  className="inline-block text-black indie-flower-regular underline font-semibold tracking-wide"
-                >
-                  Read More
-                </a>
-                <span className="text-sm text-red-600 font-bold">
-                  ❤️ {randomBlog.likes} Likes
-                </span>
-                <h3 className="text-md text-gray-700 delius-swash-caps-regular">
-                  by {randomBlog.author}
-                </h3>
-              </div>
+              <p className="text-gray-600">Here&apos;s something special we picked just for you</p>
             </div>
+            <BlogCard blog={randomBlog} index={0} isSpecial={true} />
           </div>
         ) : showMostLikes ? (
-          sortedBlogs.map((blog, idx) => (
-            <div
-              key={blog.id}
-              className={`bg-[#faf5f5] overflow-hidden  gap-4 flex ${
-                idx % 2 === 0 ? "flex-row" : "flex-row-reverse"
-              }`}
-            >
-              <Image
-                src={blog.image_url}
-                alt="Blog"
-                width={400}
-                height={400}
-                className="w-1/2 rounded-xl h-90 object-cover"
-              />
-              <div className="p-4 flex flex-col bg-[#ddddcb] rounded-xl flex-1 items-center">
-                <h2 className="text-xl indie-flower-regular text-gray-500 tracking-wide">
-                  {blog.created_at}
-                </h2>
-                <h2 className="text-3xl  delius-swash-caps-regular mt-5 text-black tracking-wide">
-                  {blog.title}
-                </h2>
-                <p className="text-gray-600 mb-4 delius-swash-caps-mix mt-3 text-center">
-                  {blog.content.length > 120
-                    ? blog.content.slice(0, 520) + "..."
-                    : blog.content}
-                </p>
-                <div className="w-full flex justify-between items-center mt-auto pt-2">
-                  <a
-                    href={`/blogInfo/${blog.id}`}
-                    className="inline-block text-black indie-flower-regular underline font-semibold tracking-wide"
-                  >
-                    Read More
-                  </a>
-                  <span className="text-sm text-red-600 font-bold">
-                    ❤️ {blog.likes} Likes
-                  </span>
-                  <h3 className="text-md text-gray-700 delius-swash-caps-regular">
-                    by {blog.author}
-                  </h3>
-                </div>
-              </div>
+          <div className="max-w-6xl mx-auto">
+            <div className="text-center mb-8">
+              <h2 className="text-3xl font-bold text-gray-800 delius-swash-caps-regular mb-2">
+                🏆 Most Loved Stories
+              </h2>
+              <p className="text-gray-600">The community&apos;s favorite reads</p>
             </div>
-          ))
+            {sortedBlogs.map((blog, idx) => (
+              <BlogCard key={blog.id} blog={blog} index={idx} />
+            ))}
+          </div>
         ) : (
-          blogs.map((blog, idx) => (
-            <div
-              key={blog.id}
-              className={`bg-[#faf5f5]  overflow-hidden gap-4 flex ${
-                idx % 2 === 0 ? "flex-row" : "flex-row-reverse"
-              }`}
-            >
-              <Image
-                src={blog.image_url}
-                alt="Blog"
-                width={400}
-                height={400}
-                className="w-1/2 rounded-xl  h-90 object-cover"
-              />
-              <div className="p-4 flex flex-col bg-[#ddddcb] rounded-xl flex-1 items-center">
-                <h2 className="text-xl indie-flower-regular text-gray-500 tracking-wide">
-                  {blog.created_at}
-                </h2>
-                <h2 className="text-3xl  delius-swash-caps-regular mt-5 text-black tracking-wide">
-                  {blog.title}
-                </h2>
-                <p className="text-gray-600 mb-4 delius-swash-caps-mix mt-3 text-center">
-                  {blog.content.length > 120
-                    ? blog.content.slice(0, 520) + "..."
-                    : blog.content}
-                </p>
-                <div className="w-full flex justify-between items-center mt-auto pt-2">
-                  <a
-                    href={`/blogInfo/${blog.id}`}
-                    className="inline-block text-black indie-flower-regular underline font-semibold tracking-wide"
-                  >
-                    Read More
-                  </a>
-                  <span className="text-sm text-red-600 font-bold">
-                    ❤️ {blog.likes} Likes
-                  </span>
-                  <h3 className="text-md text-gray-700 delius-swash-caps-regular">
-                    by {blog.author}
-                  </h3>
-                </div>
-              </div>
+          <div className="max-w-6xl mx-auto">
+            <div className="text-center mb-8">
+              <h2 className="text-3xl font-bold text-gray-800 delius-swash-caps-regular mb-2">
+                📚 All Stories
+              </h2>
+              <p className="text-gray-600">Explore our entire collection of amazing stories</p>
             </div>
-          ))
+            {blogs.map((blog, idx) => (
+              <BlogCard key={blog.id} blog={blog} index={idx} />
+            ))}
+          </div>
         )}
       </div>
     </div>

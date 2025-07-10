@@ -5,7 +5,7 @@ import BlogDisplay from '@/components/blog/blogDisplay';
 
 export default function page () {
   return (
-    <div className='bg-[#faf5f5]'>
+    <div className='bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50'>
       <BlogNavbar/>
       <BlogDisplay/>
       

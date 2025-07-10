@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function MyBlogNavbar() {
   return (
-    <nav className="flex items-center justify-between py-4 px-8 bg-[#f6ebeb] mb-8">
+    <nav className="flex items-center justify-between py-4 px-8 bg-gradient-to-br from-violet-50 via-purple-50 to-indigo-50">
       {/* Left: Home and Blogs links */}
       <div className="flex gap-6">
         <Link href="/">
@@ -18,7 +18,7 @@ export default function MyBlogNavbar() {
       </div>
       {/* Center: DailyME heading */}
       <div className="flex-1 flex justify-center">
-        <h1 className="text-2xl font-bold delius-swash-caps-regular text-gray-900">
+        <h1 className="text-4xl font-bold delius-swash-caps-regular text-gray-700">
           DailyME
         </h1>
       </div>

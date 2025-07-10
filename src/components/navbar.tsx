@@ -22,25 +22,25 @@ export default function Navbar() {
       <div className="flex items-center delius-swash-caps-regular ml-30 space-x-6">
         <Link
           href="/"
-          className="text-black hover:text-white hover:underline transition-colors "
+          className="text-white text-2xl animate-bounce hover:text-gray-800 hover:underline transition-colors "
         >
           Home
         </Link>
         <Link
           href="/about"
-          className="text-black hover:text-white hover:underline transition-colors"
+          className="text-gray-800 animate-bounce hover:text-white hover:underline transition-colors"
         >
           About
         </Link>
         <Link
           href="/blogingPage"
-          className="text-black hover:text-white hover:underline transition-colors"
+          className="text-white animate-bounce hover:text-gray-900 hover:underline transition-colors"
         >
           Blogs
         </Link>
         <Link
           href="/contact"
-          className="text-black hover:text-white hover:underline transition-colors"
+          className="text-gray-800 animate-bounce hover:text-white hover:underline transition-colors"
         >
           Contact
         </Link>
@@ -53,7 +53,7 @@ export default function Navbar() {
           rel="noopener noreferrer"
           aria-label="Facebook"
         >
-          <Facebook className="w-6 h-6 text-black hover:text-white transition-colors" />
+          <Facebook className="w-6 h-6 text-gray-800 animate-bounce hover:text-white transition-colors" />
         </a>
         <a
           href="https://twitter.com"
@@ -61,7 +61,7 @@ export default function Navbar() {
           rel="noopener noreferrer"
           aria-label="Twitter"
         >
-          <Twitter className="w-6 h-6 text-black hover:text-white transition-colors" />
+          <Twitter className="w-6 h-6 text-white animate-bounce hover:text-black transition-colors" />
         </a>
         <a
           href="https://instagram.com"
@@ -69,11 +69,11 @@ export default function Navbar() {
           rel="noopener noreferrer"
           aria-label="Instagram"
         >
-          <Instagram className="w-6 h-6 text-black hover:text-white transition-colors" />
+          <Instagram className="w-6 h-6 text-gray-800 animate-bounce hover:text-white transition-colors" />
         </a>
         {isLoggedIn && (
-          <button type="button" title="Logout" className="p-1 rounded">
-            <LogOut className="w-6 h-6 text-black hover:text-red-900 cursor-pointer " />
+          <button type="button" title="Logout" className="p-1  rounded">
+            <LogOut className="w-6 h-6 text-white hover:text-red-900 animate-bounce cursor-pointer " />
           </button>
         )}
       </div>

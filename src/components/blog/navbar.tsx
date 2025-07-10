@@ -5,7 +5,7 @@ import { Twitter, Youtube, Instagram } from "lucide-react";
 
 export default function SimpleNavbar() {
   return (
-    <nav className="flex justify-between bg-[#faf5f5] items-center  ml-6 p-4 mb-10 max-w-7xl">
+    <nav className="flex justify-between bg-gradient-to-br from-purple-50 via-purple-50 to-pink-50 items-center p-4 max-w-7xl">
       {/* Left: Navigation */}
       <div className="flex space-x-4 mt-4  ">
         <Link
@@ -34,7 +34,7 @@ export default function SimpleNavbar() {
       </div>
       {/* Center: Website Name */}
       <div className="text-4xl font-bold  delius-swash-caps-regular mt-4 text-gray-900   text-center  mr-40 flex-1">
-        DailyME
+        
       </div>
       {/* Right: Social Media Icons */}
       <div className="flex space-x-4 text-2xl text-gray-600 mt-4 ">
