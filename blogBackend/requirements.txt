@@ -4,3 +4,4 @@ psycopg2
 pydantic
 python-dotenv
 PyJWT
+cloudinary
