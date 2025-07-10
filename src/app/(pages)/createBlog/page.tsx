@@ -43,8 +43,9 @@ export default function CreateBlogPage() {
     const formData = new FormData();
     formData.append("file", image);
     try {
+      const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
       const res = await axios.post(
-        "http://localhost:8000/upload_image",
+        `${BASE_URL}/upload_image`,
         formData,
         {
           headers: {
@@ -78,8 +79,9 @@ export default function CreateBlogPage() {
     }
 
     try {
+      const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
       await axios.post(
-        `http://localhost:8000/createBlogs?user_id=${userData.id}`,
+        `${BASE_URL}/createBlogs?user_id=${userData.id}`,
         {
           title,
           content,

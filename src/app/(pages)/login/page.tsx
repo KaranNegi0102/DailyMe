@@ -26,7 +26,8 @@ export default function Login() {
     setIsLoading(true);
     setErrorMessage("");
     try {
-      const response = await axios.post("http://localhost:8000/login", data);
+      const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+      const response = await axios.post(`${BASE_URL}/login`, data);
       console.log(response);
       router.push("/blogingPage");
     } catch (error) {

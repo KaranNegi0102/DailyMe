@@ -1,7 +1,7 @@
 "use client";
 
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 
 interface USER_DATA_TYPE {
   id: number;
@@ -10,7 +10,7 @@ interface USER_DATA_TYPE {
   password: string;
   phone: string;
   image_url: string;
-  token:string;
+  token: string;
 }
 
 interface TYPE_OF_INITIAL_STATE_TYPE {
@@ -33,17 +33,23 @@ export const fetchUserData = createAsyncThunk(
   "auth/fetchUserData",
   async (_, { rejectWithValue }) => {
     axios.defaults.withCredentials = true;
+    const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
     try {
-      console.log("fetching user data...")
-      const response = await axios.get("http://localhost:8000/checkUser", {
+      console.log("fetching user data...");
+
+      const response = await axios.get(`${BASE_URL}/checkUser`, {
         withCredentials: true,
       });
 
       console.log("response in fetchUserData --> ", response);
       return response.data;
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.log("error in fetchUserData --> ", error);
-      return rejectWithValue(error?.response?.data || "Something went wrong");
+      const errorMessage =
+        error instanceof AxiosError
+          ? error.response?.data || "Something went wrong"
+          : "Something went wrong";
+      return rejectWithValue(errorMessage);
     }
   }
 );

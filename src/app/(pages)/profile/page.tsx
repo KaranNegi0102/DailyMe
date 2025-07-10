@@ -66,9 +66,10 @@ export default function UserProfile() {
     if (!userData) return;
     if (!validate()) return;
     setIsSaving(true);
+    const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
     try {
       await axios.put(
-        `http://localhost:8000/update-profile?user_id=${userData.id}`,
+        `${BASE_URL}/update-profile?user_id=${userData.id}`,
         { username, email, phone },
         { withCredentials: true }
       );
@@ -82,9 +83,10 @@ export default function UserProfile() {
   };
 
   async function handleLogout() {
+    const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
     try {
       const response = await axios.post(
-        "http://localhost:8000/logOut",
+        `${BASE_URL}/logOut`,
         {},
         {
           withCredentials: true,

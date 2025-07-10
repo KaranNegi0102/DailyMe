@@ -32,8 +32,9 @@ export default function Page() {
 
   useEffect(() => {
     if (!userData) return;
+    const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
     axios
-      .get(`http://localhost:8000/myblogs?user_id=${userData.id}`)
+      .get(`${BASE_URL}/myblogs?user_id=${userData.id}`)
       .then((res) => {
         console.log("my response is ", res.data);
         setBlogs(res.data);

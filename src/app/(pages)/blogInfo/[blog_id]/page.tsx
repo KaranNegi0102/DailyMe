@@ -38,7 +38,8 @@ export default function BlogInfoPage() {
   useEffect(() => {
     const fetchBlog = async () => {
       try {
-        const response = await axios.get(`http://localhost:8000/blogInfo/${blogId}`);
+        const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+        const response = await axios.get(`${BASE_URL}/blogInfo/${blogId}`);
         setBlog(response.data);
       } catch (error) {
         console.log(error)
@@ -50,17 +51,21 @@ export default function BlogInfoPage() {
     fetchBlog();
   }, [blogId]);
 
+  
+
   useEffect(() => {
+    const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
     if (blogId) {
-      axios.get(`http://localhost:8000/likes/${blogId}`)
+      axios.get(`${BASE_URL}/likes/${blogId}`)
         .then((res) => setLikes(res.data.likes))
         .catch(console.error);
     }
   }, [blogId]);
 
   useEffect(() => {
+    const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
     if (userData && blogId) {
-      axios.get(`http://localhost:8000/isLiked`, {
+      axios.get(`${BASE_URL}/isLiked`, {
         params: { blog_id: blogId, user_id: userData.id },
       })
         .then((res) => setLiked(res.data.liked))
@@ -69,9 +74,10 @@ export default function BlogInfoPage() {
   }, [userData, blogId]);
 
   const handleLike = async () => {
+    const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
     if (!userData || liked) return;
     try {
-      await axios.post(`http://localhost:8000/like`, null, {
+      await axios.post(`${BASE_URL}/like`, null, {
         params: { blog_id: blogId, user_id: userData.id },
       });
       setLikes((prev) => prev + 1);
@@ -82,9 +88,10 @@ export default function BlogInfoPage() {
   };
 
   const handleDelete = async () => {
+    const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
     if (!userData || !blog) return;
     try {
-      await axios.post(`http://localhost:8000/blogDelete`, null, {
+      await axios.post(`${BASE_URL}/blogDelete`, null, {
         params: { blog_id: blog.id, user_id: userData.id },
       });
       alert("Blog deleted!");

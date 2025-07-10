@@ -25,8 +25,9 @@ export default function BlogDisplay() {
   const [sortedBlogs, setSortedBlogs] = useState<Blog[]>([]);
 
   useEffect(() => {
+    const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
     axios
-      .get("http://localhost:8000/blogs")
+      .get(`${BASE_URL}/blogs`)
       .then((res) => {
         console.log(res.data);
         setBlogs(res.data);

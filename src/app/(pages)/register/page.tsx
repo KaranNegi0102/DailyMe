@@ -28,7 +28,8 @@ export default function Register() {
     console.log(data);
 
     try {
-      const response = await axios.post("http://127.0.0.1:8000/register", data);
+      const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+      const response = await axios.post(`${BASE_URL}/register`, data);
       console.log(response);
       router.push("/login");
       // Handle successful registration here
