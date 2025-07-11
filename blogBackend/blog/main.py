@@ -112,7 +112,7 @@ def login(user:LoginUserIn,response:Response):
       value=token,
       httponly=True,
       secure=True,
-      samesite="none",
+      samesite="Lax",
       max_age = 7 * 24 * 60 * 60
     )
 
