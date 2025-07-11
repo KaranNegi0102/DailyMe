@@ -37,7 +37,7 @@ export const fetchUserData = createAsyncThunk(
     try {
       console.log("fetching user data...");
 
-      const response = await axios.get(`${BASE_URL}/checkUser`, {
+      const response = await axios.get(`api/auth/checkUser`, {
         withCredentials: true,
       });
 
