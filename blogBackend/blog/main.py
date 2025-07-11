@@ -105,14 +105,14 @@ def login(user:LoginUserIn,response:Response):
 
     token = create_token(user_payload)
 
-    # print(f"token is ->  {token}")
+    print(f"token is ->  {token}")
     
     response.set_cookie(
       key="auth_token",
       value=token,
       httponly=True,
-      secure=False,
-      samesite="Lax",
+      secure=True,
+      samesite="none",
       max_age = 7 * 24 * 60 * 60
     )
 
