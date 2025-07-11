@@ -1,8 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import BlogCard from "../blog/BlogCard";
-
+import axios from "axios"
 
 interface Blog {
   id: number;
@@ -23,11 +22,13 @@ export default function BlogDisplay() {
   const [randomBlog, setRandomBlog] = useState<Blog | null>(null);
   const [showMostLikes, setShowMostLikes] = useState(false);
   const [sortedBlogs, setSortedBlogs] = useState<Blog[]>([]);
-
+  const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+  
   useEffect(() => {
-    const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
     axios
-      .get(`${BASE_URL}/blogs`)
+      .get(`${BASE_URL}/blogs`,{
+        withCredentials: true,
+      })
       .then((res) => {
         console.log(res.data);
         setBlogs(res.data);
