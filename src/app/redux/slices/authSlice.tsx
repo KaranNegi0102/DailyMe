@@ -42,7 +42,7 @@ export const fetchUserData = createAsyncThunk(
       });
 
       console.log("response in fetchUserData --> ", response);
-      return response.data;
+      return response.data.user;
     } catch (error: unknown) {
       console.log("error in fetchUserData --> ", error);
       const errorMessage =
