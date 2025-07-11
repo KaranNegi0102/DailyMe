@@ -41,14 +41,14 @@ export async function POST(req:NextRequest){
     })
 
     response.cookies.set({
-      name:"auth_token",
-      value:token,
+      name: "auth_token",
+      value: token,
       httpOnly: true,
-      maxAge: 7 * 24 * 60 * 60 * 1000,
-      secure: true,
-      sameSite: "none",
+      secure: true,          
+      sameSite: "none",     
+      maxAge: 7 * 24 * 60 * 60,
       path: "/"
-    })
+    });
 
     return response;
 
