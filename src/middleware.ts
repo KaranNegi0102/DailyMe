@@ -1,6 +1,6 @@
 import {NextResponse , NextRequest} from "next/server";
 
-const protectedRoutes = ["myBlog","/createBlog","/blogInfo/:blogId"];
+const protectedRoutes = ["/blogingPage","/myBlog","/createBlog","/blogInfo/:blogId"];
 const publicRoutes = ["/login","/register"];
 
 export function middleware(req:NextRequest){
@@ -20,5 +20,5 @@ export function middleware(req:NextRequest){
 }
 
 export const config ={
-  matcher: ["/blogInfo","/createBlog","/myBlog","/login","/register"],
+  matcher: ["/blogingPage","/blogInfo","/createBlog","/myBlog","/login","/register"],
 }
