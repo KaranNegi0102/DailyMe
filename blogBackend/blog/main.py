@@ -184,12 +184,12 @@ def check_user(auth_token: str = Cookie()):
       if not user:
         raise HTTPException(status_code=404, detail="User not found")
 
-      return {
-          "id": user[0],
-          "username": user[1],
-          "email": user[2],
-          "phone": user[3],
-        }
+    return {
+      "id": user[0],
+      "username": user[1],
+      "email": user[2],
+      "phone": user[3],
+      }
   except Exception as e:
     raise HTTPException(status_code=401, detail="unauthorized")
 
