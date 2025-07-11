@@ -30,7 +30,7 @@ export default function BlogDisplay() {
         const res = await axios.get(
           `https://dailymeblogbackend.onrender.com/blogs`
         );
-        console.log(res.data);
+        // console.log(res.data);
         setBlogs(res.data);
         setLoading(false);
       } catch (error) {

@@ -5,7 +5,7 @@ import axios from "axios";
 import Image from "next/image";
 import { fetchUserData } from "@/app/redux/slices/authSlice";
 import { useAppSelector, useAppDispatch } from "@/app/hooks/hooks";
-import {  Trash2, Shredder } from "lucide-react";
+import { Trash2, Shredder } from "lucide-react";
 import MyBlogNavbar from "@/components/myBlog/navbar";
 
 interface Blog {
@@ -21,9 +21,14 @@ interface Blog {
 export default function BlogInfoPage() {
   const params = useParams();
   const blogId = params.blog_id;
+  // console.log("this is my blogid in infopage checkup", blogId);
   const router = useRouter();
   const dispatch = useAppDispatch();
-  const userData = useAppSelector((state) => state.auth.userData);
+
+  const { userData, isLoggedIn } = useAppSelector((state) => state.auth);
+
+  // console.log("this is my userdata in blog info page", userData);
+  // console.log("this is my userdata in blog info page", isLoggedIn);
 
   const [blog, setBlog] = useState<Blog | null>(null);
   const [loading, setLoading] = useState(true);
@@ -36,13 +41,13 @@ export default function BlogInfoPage() {
   }, [dispatch]);
 
   useEffect(() => {
+    const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
     const fetchBlog = async () => {
       try {
-        const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
         const response = await axios.get(`${BASE_URL}/blogInfo/${blogId}`);
         setBlog(response.data);
       } catch (error) {
-        console.log(error)
+        console.log(error);
         setBlog(null);
       } finally {
         setLoading(false);
@@ -51,12 +56,11 @@ export default function BlogInfoPage() {
     fetchBlog();
   }, [blogId]);
 
-  
-
   useEffect(() => {
     const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
     if (blogId) {
-      axios.get(`${BASE_URL}/likes/${blogId}`)
+      axios
+        .get(`${BASE_URL}/likes/${blogId}`)
         .then((res) => setLikes(res.data.likes))
         .catch(console.error);
     }
@@ -65,9 +69,10 @@ export default function BlogInfoPage() {
   useEffect(() => {
     const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
     if (userData && blogId) {
-      axios.get(`${BASE_URL}/isLiked`, {
-        params: { blog_id: blogId, user_id: userData.id },
-      })
+      axios
+        .get(`${BASE_URL}/isLiked`, {
+          params: { blog_id: blogId, user_id: userData.id },
+        })
         .then((res) => setLiked(res.data.liked))
         .catch(console.error);
     }
@@ -97,7 +102,7 @@ export default function BlogInfoPage() {
       alert("Blog deleted!");
       router.push("/myBlog");
     } catch (error) {
-      console.log(error)
+      console.log(error);
       alert("Failed to delete blog.");
     }
   };
@@ -130,26 +135,26 @@ export default function BlogInfoPage() {
         <div className="bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl p-8 relative">
           {/* Back & Delete Controls */}
           <div className="flex justify-between items-center  mb-6">
-          <button
-          type="button"
-          onClick={() => router.back()}
-          className="flex items-center gap-2 bg-white/80 cursor-pointer hover:bg-white text-gray-800 px-4 py-2 rounded-full shadow delius-swash-caps-regular transition-colors duration-200"
-        >
-          <svg
-            className="w-5 h-5"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth={2}
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M15 19l-7-7 7-7"
-            />
-          </svg>
-          Back
-        </button>
+            <button
+              type="button"
+              onClick={() => router.back()}
+              className="flex items-center gap-2 bg-white/80 cursor-pointer hover:bg-white text-gray-800 px-4 py-2 rounded-full shadow delius-swash-caps-regular transition-colors duration-200"
+            >
+              <svg
+                className="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth={2}
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M15 19l-7-7 7-7"
+                />
+              </svg>
+              Back
+            </button>
 
             {userData?.id === blog.owner_id && (
               <div className="relative">

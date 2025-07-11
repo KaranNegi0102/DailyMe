@@ -31,25 +31,21 @@ const initialState: TYPE_OF_INITIAL_STATE_TYPE = {
 export const fetchUserData = createAsyncThunk(
   "auth/fetchUserData",
   async (_, { rejectWithValue }) => {
-    const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
-    console.log(BASE_URL)
+    // const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+    // console.log(BASE_URL)
 
     try {
       console.log("fetching user data...");
 
-      const response = await axios.get(`api/auth/checkUser`, {
+      const response = await axios.get(`/api/auth/checkUser`, {
         withCredentials: true,
       });
 
-      console.log("response in fetchUserData --> ", response);
+      // console.log("response in fetchUserData hahaha --> ", response);
       return response.data.user;
     } catch (error: unknown) {
-      console.log("error in fetchUserData --> ", error);
-      const errorMessage =
-        error instanceof AxiosError
-          ? error.response?.data || "Something went wrong"
-          : "Something went wrong";
-      return rejectWithValue(errorMessage);
+      console.log("error", error);
+      return rejectWithValue("Something went wrong");
     }
   }
 );

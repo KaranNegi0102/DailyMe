@@ -83,17 +83,12 @@ export default function UserProfile() {
   };
 
   async function handleLogout() {
-    const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
     try {
-      const response = await axios.post(
-        `${BASE_URL}/logOut`,
-        {},
-        {
-          withCredentials: true,
-        }
+      const response = await axios.get(
+        `/api/auth/logOut`,
       );
       console.log(response.data.message);
-      router.push("/");
+      window.location.reload();
     } catch (error) {
       console.log(error);
     }

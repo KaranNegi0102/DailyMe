@@ -9,7 +9,7 @@ import Footer from "@/components/footer";
 export default function Home() {
   const dispatch = useAppDispatch();
   const { isLoggedIn , token } = useAppSelector((state) => state.auth);
-  console.log(token)
+  // console.log("yeh token check krha hu ",token)
 
   useEffect(() => {
     dispatch(fetchUserData());
@@ -104,7 +104,7 @@ export default function Home() {
               {!isLoggedIn && (
                 <a
                   href="/register"
-                  className="inline-flex items-center justify-center px-8 py-4 text-lg font-semibold text-white bg-gradient-to-r from-purple-600 to-pink-600 rounded-full shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 delius-swash-caps-regular"
+                  className="inline-flex items-center justify-center px-8 py-4 text-lg font-semibold text-white bg-gray-900 hover:bg-[#593636] rounded-full shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 delius-swash-caps-regular"
                 >
                   Start Writing Today
                 </a>

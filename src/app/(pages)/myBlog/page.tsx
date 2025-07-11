@@ -22,7 +22,7 @@ export default function Page() {
   const [error, setError] = useState<string | null>(null);
   const dispatch = useAppDispatch();
 
-  console.log("this is my userdata in my blogs page", userData);
+  // console.log("this is my userdata in my blogs page", userData);
 
   
 
@@ -36,7 +36,7 @@ export default function Page() {
     axios
       .get(`${BASE_URL}/myblogs?user_id=${userData.id}`)
       .then((res) => {
-        console.log("my response is ", res.data);
+        // console.log("my response is ", res.data);
         setBlogs(res.data);
         setLoading(false);
       })

@@ -25,13 +25,13 @@ export default function Register() {
   const onSubmit = async (data: RegisterForm) => {
     setIsLoading(true);
     setErrorMessage("");
-    console.log(data);
+    // console.log(data);
 
     try {
       const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
-      console.log("this is data",data)
+      // console.log("this is data",data)
       const response = await axios.post(`${BASE_URL}/register`, data);
-      console.log(response);
+      console.log(response.data.message);
       router.push("/login");
       // Handle successful registration here
     } catch (error) {

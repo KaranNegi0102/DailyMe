@@ -1,24 +1,37 @@
-import {NextResponse , NextRequest} from "next/server";
+import { NextResponse, NextRequest } from "next/server";
 
-const protectedRoutes = ["/blogingPage"];
-const publicRoutes = ["/login","/register"];
-
-export function middleware(req:NextRequest){
+export function middleware(req: NextRequest) {
   const token = req.cookies.get("auth_token")?.value;
-  // console.log("this is my token ",token);
+  const { pathname } = req.nextUrl;
 
-  console.log(req.nextUrl.pathname)
+  const isProtected =
+    pathname.startsWith("/blogingPage") ||
+    pathname.startsWith("/profile") ||
+    pathname.startsWith("/myBlog") ||
+    pathname.startsWith("/blogInfo");
 
-  if(!token && protectedRoutes.includes(req.nextUrl.pathname)){
-    return NextResponse.redirect(new URL("/",req.url));
+  const isPublic =
+    pathname === "/login" || pathname === "/register";
+
+  if (!token && isProtected) {
+    return NextResponse.redirect(new URL("/", req.url));
   }
-  if(token && publicRoutes.includes(req.nextUrl.pathname)){
-    return NextResponse.redirect(new URL("/blogingPage",req.url));
+
+  if (token && isPublic) {
+    return NextResponse.redirect(new URL("/blogingPage", req.url));
   }
 
   return NextResponse.next();
 }
 
-export const config ={
-  matcher: ["/blogingPage","/login","/register"],
-}
+
+export const config = {
+  matcher: [
+    "/blogingPage",
+    "/profile",
+    "/myBlog",
+    "/blogInfo/:path*",  
+    "/login",
+    "/register",
+  ],
+};

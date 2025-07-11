@@ -2,7 +2,7 @@ import React from "react";
 import Link from "next/link";
 
 const Footer = () => (
-  <footer className="w-full bg-[#efb9b9]  text-black py-6 delius-swash-caps-regular mt-12">
+  <footer className="w-full bg-[#efb9b9]  text-white py-6 delius-swash-caps-regular mt-12">
     <div className="container mx-auto flex flex-col md:flex-row items-center justify-between px-4">
       <div className="text-center md:text-left mb-2 md:mb-0">
         &copy; {new Date().getFullYear()} BlogVerse. All rights reserved.

@@ -8,27 +8,21 @@ import axios from "axios";
 
 export default function Navbar() {
   const dispatch = useAppDispatch();
-  const { isLoggedIn, userData } = useAppSelector((state) => state.auth);
+  const { isLoggedIn} = useAppSelector((state) => state.auth);
 
-  console.log("this is islogged in navbar", isLoggedIn);
-  console.log("this is userData in navbar", userData);
-  const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
-
+  // console.log("this is islogged in navbar", isLoggedIn);
+  // console.log("this is userData in navbar", userData);
   useEffect(() => {
     dispatch(fetchUserData());
   }, [dispatch]);
 
   async function handleLogout() {
     try {
-      const response = await axios.post(
-        `${BASE_URL}/logOut`,
-        {},
-        {
-          withCredentials: true,
-        }
+      const response = await axios.get(
+        `/api/auth/logOut`,
       );
       console.log(response.data.message);
-      // window.location.reload();
+      window.location.reload();
     } catch (error) {
       console.log(error);
     }
@@ -44,24 +38,24 @@ export default function Navbar() {
         >
           Home
         </Link>
-        {/* <Link
+        <Link
           href="/about"
           className="text-gray-800 animate-bounce hover:text-white hover:underline transition-colors"
         >
           About
-        </Link> */}
+        </Link>
         <Link
           href="/blogingPage"
           className="text-white animate-bounce hover:text-gray-900 hover:underline transition-colors"
         >
           Blogs
         </Link>
-        {/* <Link
+        <Link
           href="/contact"
           className="text-gray-800 animate-bounce hover:text-white hover:underline transition-colors"
         >
           Contact
-        </Link> */}
+        </Link>
       </div>
       {/* Right side social icons */}
       <div className="flex items-center  mr-30 space-x-4">
