@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import  Provider  from "@/app/redux/Provider";
+import { Analytics } from '@vercel/analytics/next';
 
 
 
@@ -33,6 +34,7 @@ export default function RootLayout({
       >
         <Provider>
         {children}
+        <Analytics />
 
         </Provider>
       </body>
