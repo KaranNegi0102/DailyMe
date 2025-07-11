@@ -112,8 +112,10 @@ def login(user:LoginUserIn,response:Response):
       value=token,
       httponly=True,
       secure=True,
-      samesite="Lax",
+      samesite="none",
+      path="/",
       max_age = 7 * 24 * 60 * 60
+      
     )
 
     return res_userData[0]
