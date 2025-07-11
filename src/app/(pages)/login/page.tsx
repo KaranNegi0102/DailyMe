@@ -3,7 +3,6 @@ import { useForm } from "react-hook-form";
 import axios from "axios";
 import Link from "next/link";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 
 interface LoginFormData {
   email: string;
@@ -18,7 +17,6 @@ export default function Login() {
   } = useForm<LoginFormData>();
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-  const router = useRouter();
 
   axios.defaults.withCredentials = true;
 
@@ -33,7 +31,7 @@ export default function Login() {
         withCredentials: true,
       });
       console.log("user logged in successfully",response);
-      router.push("/blogingPage");
+      window.location.href = "/blogingPage";
     } catch (error) {
       console.error(error);
       setErrorMessage("Invalid username or password.");

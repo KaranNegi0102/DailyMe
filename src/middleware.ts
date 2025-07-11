@@ -1,24 +1,26 @@
-import {NextResponse , NextRequest} from "next/server";
+import { NextResponse, NextRequest } from "next/server";
 
-const protectedRoutes = [,"/createBlog","/blogInfo/:blogId"];
-const publicRoutes = ["/login","/register"];
+const protectedRoutes = ["/blogingPage", "/myBlog", "/createBlog"];
+const publicRoutes = ["/login", "/register"];
 
-export function middleware(req:NextRequest){
+export function middleware(req: NextRequest) {
   const token = req.cookies.get("auth_token")?.value;
-  console.log("this is my token ",token);
+  const pathname = req.nextUrl.pathname;
 
-  console.log(req.nextUrl.pathname)
+  const isProtected = protectedRoutes.some(route => pathname.startsWith(route));
+  const isPublic = publicRoutes.includes(pathname);
 
-  if(!token && protectedRoutes.includes(req.nextUrl.pathname)){
-    return NextResponse.redirect(new URL("/",req.url));
+  if (!token && isProtected) {
+    return NextResponse.redirect(new URL("/", req.url));
   }
-  if(token && publicRoutes.includes(req.nextUrl.pathname)){
-    return NextResponse.redirect(new URL("/blogingPage",req.url));
+
+  if (token && isPublic) {
+    return NextResponse.redirect(new URL("/blogingPage", req.url));
   }
 
   return NextResponse.next();
 }
 
-export const config ={
-  matcher: ["/blogInfo","/createBlog","/login","/register"],
-}
+export const config = {
+  matcher: ["/blogingPage", "/myBlog", "/createBlog", "/login", "/register"],
+};
