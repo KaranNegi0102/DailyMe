@@ -10,7 +10,7 @@ export function middleware(req:NextRequest){
   console.log(req.nextUrl.pathname)
 
   if(!token && protectedRoutes.includes(req.nextUrl.pathname)){
-    return NextResponse.redirect(new URL("/",req.url));
+    return NextResponse.redirect(new URL("/blogingPage",req.url));
   }
   if(token && publicRoutes.includes(req.nextUrl.pathname)){
     return NextResponse.redirect(new URL("/blogingPage",req.url));
