@@ -26,9 +26,7 @@ export default function BlogDisplay() {
   
   useEffect(() => {
     axios
-      .get(`https://dailymeblogbackend.onrender.com/blogs`,{
-        withCredentials: true,
-      })
+      .get(`https://dailymeblogbackend.onrender.com/blogs`)
       .then((res) => {
         console.log(res.data);
         setBlogs(res.data);
