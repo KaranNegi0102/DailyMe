@@ -22,11 +22,11 @@ export default function BlogDisplay() {
   const [randomBlog, setRandomBlog] = useState<Blog | null>(null);
   const [showMostLikes, setShowMostLikes] = useState(false);
   const [sortedBlogs, setSortedBlogs] = useState<Blog[]>([]);
-  const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+  // const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
   
   useEffect(() => {
     axios
-      .get(`${BASE_URL}/blogs`,{
+      .get(`https://dailymeblogbackend.onrender.com/blogs`,{
         withCredentials: true,
       })
       .then((res) => {

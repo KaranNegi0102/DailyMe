@@ -5,7 +5,7 @@ const publicRoutes = ["/login","/register"];
 
 export function middleware(req:NextRequest){
   const token = req.cookies.get("auth_token")?.value;
-  // console.log("this is my token ",token);
+  console.log("this is my token ",token);
 
   console.log(req.nextUrl.pathname)
 
