@@ -33,7 +33,7 @@ export default function Login() {
         withCredentials: true,
       });
       console.log("user logged in successfully",response.status);
-      router.push("/login");
+      router.push("/blogingPage");
     } catch (error) {
       console.error(error);
       setErrorMessage("Invalid username or password.");
