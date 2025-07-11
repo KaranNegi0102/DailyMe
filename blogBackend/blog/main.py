@@ -19,9 +19,9 @@ app = FastAPI()
 # Enable CORS for frontend
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["https://dailyme-seven.vercel.app"],
+    allow_origins=["http://localhost:3000","https://dailyme-seven.vercel.app"],x
     allow_credentials=True,
-    allow_methods=["*"] ,
+    allow_methods=["*"],
     allow_headers=["*"]
 )
 
@@ -74,6 +74,7 @@ def register(user:RegisterUserIn):
 
 @app.post("/login")
 def login(user:LoginUserIn,response:Response):
+  print(f"user is {user} in backend login")
   cur = get_cursor()
   try:
     cur.execute("SELECT * FROM users WHERE email=%s AND password=%s",(user.email,user.password))
@@ -162,26 +163,27 @@ def update_profile(user_update: UpdateUser,user_id:int):
 
 @app.get("/checkUser")
 def check_user(auth_token: str = Cookie()):
-    if not auth_token:
-        raise HTTPException(status_code=401, detail="unauthorized")
-    try:
-        user_payload = decode_token(auth_token)
-        user_id = user_payload.get("id")
+  print(f"this is auth token in backend python {auth_token}")
+  if not auth_token:
+    print("cookie not found")
+    raise HTTPException(status_code=401, detail="unauthorized")
+  try:
+    user_payload = decode_token(auth_token)
+    user_id = user_payload.get("id")
+    cur = get_cursor()
+    cur.execute("SELECT id, username, email, phone FROM users WHERE id=%s", (user_id,))
+    user = cur.fetchone()
+      if not user:
+        raise HTTPException(status_code=404, detail="User not found")
 
-        cur = get_cursor()
-        cur.execute("SELECT id, username, email, phone FROM users WHERE id=%s", (user_id,))
-        user = cur.fetchone()
-        if not user:
-            raise HTTPException(status_code=404, detail="User not found")
-
-        return {
-            "id": user[0],
-            "username": user[1],
-            "email": user[2],
-            "phone": user[3],
+      return {
+          "id": user[0],
+          "username": user[1],
+          "email": user[2],
+          "phone": user[3],
         }
-    except Exception as e:
-        raise HTTPException(status_code=401, detail="unauthorized")
+  except Exception as e:
+    raise HTTPException(status_code=401, detail="unauthorized")
 
 
 # route banana h for image upload
