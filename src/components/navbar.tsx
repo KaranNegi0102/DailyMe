@@ -12,6 +12,7 @@ export default function Navbar() {
 
   console.log("this is islogged in navbar", isLoggedIn);
   console.log("this is userData in navbar", userData);
+  const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
   useEffect(() => {
     dispatch(fetchUserData());
@@ -19,7 +20,6 @@ export default function Navbar() {
 
   async function handleLogout() {
     try {
-      const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
       const response = await axios.post(
         `${BASE_URL}/logOut`,
         {},
