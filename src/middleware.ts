@@ -3,9 +3,11 @@ import { NextResponse, NextRequest } from "next/server";
 const protectedRoutes = ["/blogingPage", "/myBlog", "/createBlog"];
 const publicRoutes = ["/login", "/register"];
 
-export function middleware(req: NextRequest) {
-  const token = req.cookies.get("auth_token")?.value;
-  const pathname = req.nextUrl.pathname;
+export  function middleware(req: NextRequest) {
+  const token =  req.cookies.get("auth_token")?.value;
+  console.log("this is my tokem" ,token)
+  const pathname =  req.nextUrl.pathname;
+  console.log("this is my pathname",pathname)
 
   const isProtected = protectedRoutes.some(route => pathname.startsWith(route));
   const isPublic = publicRoutes.includes(pathname);

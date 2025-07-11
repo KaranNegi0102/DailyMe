@@ -31,6 +31,20 @@ export default function Login() {
         withCredentials: true,
       });
       console.log("user logged in successfully",response);
+       // ✅ Wait for the browser to store the cookie before redirect
+      const waitForCookie = () =>
+        new Promise<void>((resolve) => {
+          const interval = setInterval(() => {
+            // This won't show HttpOnly cookie, but forces browser time to store it
+            const nonHttpOnlyCookie = document.cookie.includes("auth_token");
+            if (nonHttpOnlyCookie || true) {
+              clearInterval(interval);
+              resolve();
+            }
+          }, 100);
+        });
+
+      await waitForCookie();
       window.location.href = "/blogingPage";
     } catch (error) {
       console.error(error);
