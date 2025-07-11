@@ -25,7 +25,7 @@ export default function BlogInfoPage() {
   const router = useRouter();
   const dispatch = useAppDispatch();
 
-  const { userData, isLoggedIn } = useAppSelector((state) => state.auth);
+  const { userData} = useAppSelector((state) => state.auth);
 
   // console.log("this is my userdata in blog info page", userData);
   // console.log("this is my userdata in blog info page", isLoggedIn);

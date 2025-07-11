@@ -1,7 +1,7 @@
 "use client";
 
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 interface USER_DATA_TYPE {
   id: number;
   username: string;

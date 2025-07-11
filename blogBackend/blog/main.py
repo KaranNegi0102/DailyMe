@@ -78,8 +78,6 @@ def register(user:RegisterUserIn):
     conn.rollback()
     raise HTTPException(status_code=400,detail="username already exists")
 
-
-
 @app.post("/login")
 def login(user:LoginUserIn,response:Response):
   print(f"user is {user} in backend login")
