@@ -25,10 +25,14 @@ export default function Login() {
   const onSubmit = async (data: LoginFormData) => {
     setIsLoading(true);
     setErrorMessage("");
+    console.log("this is data in login ", data);
+    const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+    // console.log(BASE_URL)
     try {
-      const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
-      const response = await axios.post(`${BASE_URL}/login`, data);
-      console.log(response);
+      const response = await axios.post(`${BASE_URL}/login`, data,{
+        withCredentials: true,
+      });
+      console.log("user logged in successfully",response);
       router.push("/blogingPage");
     } catch (error) {
       console.error(error);
