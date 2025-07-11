@@ -2,7 +2,6 @@
 
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios, { AxiosError } from "axios";
-
 interface USER_DATA_TYPE {
   id: number;
   username: string;
@@ -32,8 +31,9 @@ const initialState: TYPE_OF_INITIAL_STATE_TYPE = {
 export const fetchUserData = createAsyncThunk(
   "auth/fetchUserData",
   async (_, { rejectWithValue }) => {
-    axios.defaults.withCredentials = true;
     const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+    console.log(BASE_URL)
+
     try {
       console.log("fetching user data...");
 

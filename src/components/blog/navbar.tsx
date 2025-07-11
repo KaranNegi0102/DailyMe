@@ -23,12 +23,12 @@ export default function SimpleNavbar() {
         >
           Home
         </Link>
-        <Link
+        {/* <Link
           href="/about"
           className="text-gray-600 hover:underline  delius-swash-caps-regular hover:text-gray-900 transition-colors"
         >
           About
-        </Link>
+        </Link> */}
         
         <Link
           href="/profile"

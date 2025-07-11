@@ -44,24 +44,24 @@ export default function Navbar() {
         >
           Home
         </Link>
-        <Link
+        {/* <Link
           href="/about"
           className="text-gray-800 animate-bounce hover:text-white hover:underline transition-colors"
         >
           About
-        </Link>
+        </Link> */}
         <Link
           href="/blogingPage"
           className="text-white animate-bounce hover:text-gray-900 hover:underline transition-colors"
         >
           Blogs
         </Link>
-        <Link
+        {/* <Link
           href="/contact"
           className="text-gray-800 animate-bounce hover:text-white hover:underline transition-colors"
         >
           Contact
-        </Link>
+        </Link> */}
       </div>
       {/* Right side social icons */}
       <div className="flex items-center  mr-30 space-x-4">
