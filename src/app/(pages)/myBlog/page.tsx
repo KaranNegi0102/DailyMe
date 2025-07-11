@@ -22,7 +22,7 @@ export default function Page() {
   const [error, setError] = useState<string | null>(null);
   const dispatch = useAppDispatch();
 
-  console.log("this is my userdata", userData);
+  console.log("this is my userdata in my blogs page", userData);
 
   
 
