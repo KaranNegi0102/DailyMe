@@ -171,27 +171,26 @@ def update_profile(user_update: UpdateUser,user_id:int):
 
 @app.get("/checkUser")
 def check_user(auth_token: str = Cookie()):
-  print(f"this is auth token in backend python {auth_token}")
-  if not auth_token:
-    print("cookie not found")
-    raise HTTPException(status_code=401, detail="unauthorized")
-  try:
-    user_payload = decode_token(auth_token)
-    user_id = user_payload.get("id")
-    cur = get_cursor()
-    cur.execute("SELECT id, username, email, phone FROM users WHERE id=%s", (user_id,))
-    user = cur.fetchone()
-      if not user:
-        raise HTTPException(status_code=404, detail="User not found")
-
-    return {
-      "id": user[0],
-      "username": user[1],
-      "email": user[2],
-      "phone": user[3],
-      }
-  except Exception as e:
-    raise HTTPException(status_code=401, detail="unauthorized")
+    print(f"this is auth token in backend python {auth_token}")
+    if not auth_token:
+        print("cookie not found")
+        raise HTTPException(status_code=401, detail="unauthorized")
+    try:
+        user_payload = decode_token(auth_token)
+        user_id = user_payload.get("id")
+        cur = get_cursor()
+        cur.execute("SELECT id, username, email, phone FROM users WHERE id=%s", (user_id,))
+        user = cur.fetchone()
+        if not user:
+            raise HTTPException(status_code=404, detail="User not found")
+        return {
+            "id": user[0],
+            "username": user[1],
+            "email": user[2],
+            "phone": user[3],
+        }
+    except Exception as e:
+        raise HTTPException(status_code=401, detail="unauthorized")
 
 
 # route banana h for image upload
