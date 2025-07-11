@@ -115,7 +115,6 @@ def login(user:LoginUserIn,response:Response):
       samesite="none",
       path="/",
       max_age = 7 * 24 * 60 * 60
-      
     )
 
     return res_userData[0]

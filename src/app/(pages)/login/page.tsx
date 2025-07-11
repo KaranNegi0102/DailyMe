@@ -24,28 +24,14 @@ export default function Login() {
     setIsLoading(true);
     setErrorMessage("");
     console.log("this is data in login ", data);
-    const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+    // const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
     // console.log(BASE_URL)
     try {
-      const response = await axios.post(`${BASE_URL}/login`, data,{
+      const response = await axios.post(`/api/auth/login`, data,{
         withCredentials: true,
       });
       console.log("user logged in successfully",response);
-       // ✅ Wait for the browser to store the cookie before redirect
-      const waitForCookie = () =>
-        new Promise<void>((resolve) => {
-          const interval = setInterval(() => {
-            // This won't show HttpOnly cookie, but forces browser time to store it
-            const nonHttpOnlyCookie = document.cookie.includes("auth_token");
-            if (nonHttpOnlyCookie || true) {
-              clearInterval(interval);
-              resolve();
-            }
-          }, 100);
-        });
-
-      await waitForCookie();
-      window.location.href = "/blogingPage";
+      window.location.href = "/";
     } catch (error) {
       console.error(error);
       setErrorMessage("Invalid username or password.");
