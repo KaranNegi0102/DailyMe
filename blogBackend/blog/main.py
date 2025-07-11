@@ -10,6 +10,10 @@ from cloud_config import cloudinary
 import cloudinary.uploader
 
 
+from fastapi.responses import JSONResponse
+from fastapi.requests import Request
+
+
 
 
 
@@ -19,7 +23,7 @@ app = FastAPI()
 # Enable CORS for frontend
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000","https://dailyme-seven.vercel.app"],x
+    allow_origins=["http://localhost:3000","https://dailyme-seven.vercel.app"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"]
@@ -56,6 +60,10 @@ class BlogUpdate(BaseModel):
 logged_in_users={}
 
 # routes now onwards
+
+@app.options("/{rest_of_path:path}")
+async def preflight_handler(request: Request, rest_of_path: str):
+    return JSONResponse(content={"message": "CORS preflight passed"})
 
 @app.post("/register")
 def register(user:RegisterUserIn):
