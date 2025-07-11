@@ -8,11 +8,12 @@ import Footer from "@/components/footer";
 
 export default function Home() {
   const dispatch = useAppDispatch();
-  const { isLoggedIn } = useAppSelector((state) => state.auth);
+  const { isLoggedIn , token } = useAppSelector((state) => state.auth);
+  console.log(token)
 
   useEffect(() => {
     dispatch(fetchUserData());
-  }, [dispatch]);
+  }, []);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-purple-50 to-pink-50">
