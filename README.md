@@ -10,7 +10,7 @@
 
 **Demo Credentials**  
 - Email: `admin@gmail.com`  
-- Password: `admin@123`  
+- Password: `admin123`  
 
 > _Note: If the data doesn't load instantly, the backend may be in sleep mode (Render free tier). The server will respond after a few seconds._
 
