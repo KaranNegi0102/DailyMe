@@ -4,6 +4,7 @@ import { useAppSelector, useAppDispatch } from "@/app/hooks/hooks";
 import { fetchUserData } from "@/app/redux/slices/authSlice";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import {toast} from 'react-hot-toast';
 
 export default function CreateBlogPage() {
   const dispatch = useAppDispatch();
@@ -55,6 +56,7 @@ export default function CreateBlogPage() {
       );
       return res.data.image_url;
     } catch (error) {
+      toast.error("Failed to upload image. (Size to Large)");
       console.error("Image upload failed:", error);
       return null;
     }
@@ -88,12 +90,14 @@ export default function CreateBlogPage() {
           image_url: uploadImageUrl,
         }
       );
+      toast.success("Blog created successfully!");
       setBlogs("Blog created successfully!");
       setTitle("");
       setContent("");
       setImage(null);
       router.push("/myBlog");
     } catch {
+      toast.error("Failed to create blog.");
       setBlogs("Failed to create blog.");
     }
   }

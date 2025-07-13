@@ -4,6 +4,7 @@ import { useAppDispatch, useAppSelector } from "@/app/hooks/hooks";
 import { fetchUserData } from "@/app/redux/slices/authSlice";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import { toast } from 'react-hot-toast';
 
 export default function UserProfile() {
   const dispatch = useAppDispatch();
@@ -73,9 +74,11 @@ export default function UserProfile() {
         { username, email, phone },
         { withCredentials: true }
       );
+      toast.success("Profile Updated Successfully")
       setEditMode(false);
       dispatch(fetchUserData());
     } catch (error) {
+      toast.error("Profile Update Not Successful")
       console.error("Update failed", error);
     } finally {
       setIsSaving(false);
@@ -87,9 +90,11 @@ export default function UserProfile() {
       const response = await axios.get(
         `/api/auth/logOut`,
       );
+      toast.success("Log Out Successful")
       console.log(response.data.message);
       window.location.reload();
     } catch (error) {
+      toast.error("Log Out Not Successful");
       console.log(error);
     }
   }
@@ -208,7 +213,7 @@ export default function UserProfile() {
               {editMode ? (
                 <>
                   <button
-                    className="w-1/2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 rounded-lg transition-all duration-200 shadow"
+                    className="w-1/2 bg-indigo-600 cursor-pointer hover:bg-indigo-700 text-white font-semibold py-2 rounded-lg transition-all duration-200 shadow"
                     onClick={handleSave}
                     type="button"
                     disabled={isSaving}
@@ -216,7 +221,7 @@ export default function UserProfile() {
                     {isSaving ? "Saving..." : "Save"}
                   </button>
                   <button
-                    className="w-1/2 bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold py-2 rounded-lg transition-all duration-200 shadow"
+                    className="w-1/2 bg-gray-300 cursor-pointer hover:bg-gray-400 text-gray-800 font-semibold py-2 rounded-lg transition-all duration-200 shadow"
                     onClick={handleCancel}
                     type="button"
                   >
@@ -226,14 +231,14 @@ export default function UserProfile() {
               ) : (
                 <>
                   <button
-                    className="w-1/2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 rounded-lg transition-all duration-200 shadow"
+                    className="w-1/2 bg-indigo-600 cursor-pointer hover:bg-indigo-700 text-white font-semibold py-2 rounded-lg transition-all duration-200 shadow"
                     onClick={handleEdit}
                     type="button"
                   >
                     Edit
                   </button>
                   <button
-                    className="w-1/2 bg-gray-900 hover:bg-gray-800 text-white font-semibold py-2 rounded-lg transition-all duration-200 shadow"
+                    className="w-1/2 bg-gray-900 cursor-pointer hover:bg-gray-800 text-white font-semibold py-2 rounded-lg transition-all duration-200 shadow"
                     onClick={handleLogout}
                     type="button"
                   >

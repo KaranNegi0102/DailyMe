@@ -7,6 +7,8 @@ import { fetchUserData } from "@/app/redux/slices/authSlice";
 import { useAppSelector, useAppDispatch } from "@/app/hooks/hooks";
 import { Trash2, Shredder } from "lucide-react";
 import MyBlogNavbar from "@/components/myBlog/navbar";
+import {toast} from 'react-hot-toast';
+
 
 interface Blog {
   id: number;
@@ -99,11 +101,11 @@ export default function BlogInfoPage() {
       await axios.post(`${BASE_URL}/blogDelete`, null, {
         params: { blog_id: blog.id, user_id: userData.id },
       });
-      alert("Blog deleted!");
+      toast.success("Blog deleted!");
       router.push("/myBlog");
     } catch (error) {
+      toast.error("Failed to delete blog.");
       console.log(error);
-      alert("Failed to delete blog.");
     }
   };
 

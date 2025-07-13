@@ -4,7 +4,7 @@ import axios from "axios";
 import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-
+import { toast } from 'react-hot-toast';
 interface LoginFormData {
   email: string;
   password: string;
@@ -32,9 +32,11 @@ export default function Login() {
       const response = await axios.post(`/api/auth/login`, data,{
         withCredentials: true,
       });
+      toast.success("Logged In Successfully")
       console.log("user logged in successfully",response.status);
       router.push("/blogingPage");
     } catch (error) {
+      toast.error("Log In Not Successful")
       console.error(error);
       setErrorMessage("Invalid username or password.");
     } finally {

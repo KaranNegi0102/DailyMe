@@ -4,7 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import axios from "axios"
-
+import { toast } from 'react-hot-toast';
 interface RegisterForm {
   username: string;
   password: string;
@@ -31,10 +31,12 @@ export default function Register() {
       const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
       // console.log("this is data",data)
       const response = await axios.post(`${BASE_URL}/register`, data);
+      toast.success("Registration Successful")
       console.log(response.data.message);
       router.push("/login");
       // Handle successful registration here
     } catch (error) {
+      toast.error("Registration Not Successful")
       console.log(error);
       setErrorMessage("Registration failed. Please try again.");
     } finally {

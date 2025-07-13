@@ -5,6 +5,7 @@ import { useAppDispatch, useAppSelector } from "@/app/hooks/hooks";
 import { fetchUserData } from "@/app/redux/slices/authSlice";
 import { Facebook, Twitter, Instagram, LogOut } from "lucide-react";
 import axios from "axios";
+import { toast } from 'react-hot-toast';
 
 export default function Navbar() {
   const dispatch = useAppDispatch();
@@ -21,9 +22,11 @@ export default function Navbar() {
       const response = await axios.get(
         `/api/auth/logOut`,
       );
+      toast.success("Log Out Successful")
       console.log(response.data.message);
       window.location.reload();
     } catch (error) {
+      toast.error("Log Out Not Successful");
       console.log(error);
     }
   }
