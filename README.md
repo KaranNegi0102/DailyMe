@@ -1,36 +1,79 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 📝 DailyMe — Blogging Platform
 
-## Getting Started
+**DailyMe** is a modern, full-stack blogging web application that allows users to **register, log in, and share personal blogs**. Built using **Next.js**, **Redux Toolkit**, **FastAPI**, and **PostgreSQL**, DailyMe enables both casual readers and content creators to explore, write, and interact through beautifully designed blog pages. Featuring **image upload via Cloudinary**, **JWT-based auth**, and a responsive UI, DailyMe offers a seamless and dynamic blogging experience.
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 🚀 Live Demo
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+🔗 [Open DailyMe Blog](https://dailyme-seven.vercel.app/) in your browser to try it out.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+**Demo Credentials**  
+- Email: `admin@gmail.com`  
+- Password: `admin123`  
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+> _Note: If the data doesn't load instantly, the backend may be in sleep mode (Render free tier). The server will respond after a few seconds._
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+## ✨ Features
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### 📝 Blog Creation & Display
+- Authenticated users can create blogs with **title**, **content**, and optional **image upload**.
+- All blogs display on the homepage with **"Read More"** options for full blog views.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### 🔐 Secure Authentication
+- **JWT-based login/register system**
+- Tokens are stored as cookies and used for secure, protected routes.
 
-## Deploy on Vercel
+### 🌆 Image Upload with Cloudinary
+- Blogs can include images uploaded via **Cloudinary**.
+- Fallback/default image shown when no image is uploaded.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### 🔍 Browse & Filter Blogs
+- All users can explore blogs.
+- Logged-in users can view their own blogs in a personalized dashboard.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### ❤️ Like & Delete Functionality
+- Visitors can like blogs.
+- Authors can delete their own content.
+
+### 📦 State Management (Redux Toolkit)
+- App-wide state managed with **Redux Toolkit** for authentication and blog storage.
+- Optimized for async operations and seamless user experience.
+
+> Redux slices are located in the `/redux` directory.
+
+### 🎨 Responsive UI with Tailwind CSS
+- Fully responsive design using **Tailwind CSS**
+- Clean layout and mobile-friendly blog cards, modals, and forms.
+
+---
+
+## ✅ TODO / Upcoming Features
+
+- ✏️ Edit Blog Functionality  
+- 🔍 Tag-based Blog Filtering  
+- 🧠 AI-Assisted Blog Writing  
+- 📱 Mobile PWA Support  
+- 💬 Comment System  
+- 📊 Blog Analytics (Views, Likes, Reads)
+
+---
+
+## 🛠️ Tech Stack
+
+| Layer      | Technology                               |
+|------------|-------------------------------------------|
+| Frontend   | Next.js, React, Redux Toolkit, Tailwind CSS |
+| Backend    | FastAPI, Python                          |
+| Database   | PostgreSQL (via pgAdmin)                 |
+| Image Upload | Cloudinary                             |
+| Auth       | JWT (Cookies)                            |
+| Deployment | Vercel (Frontend), Render (Backend)      |
+
+---
+
+## 👤Author
+Built by Karan Negi.
+Feel free to open issues or contribute to the project!
