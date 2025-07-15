@@ -5,16 +5,27 @@ import Image from "next/image";
 import { useAppDispatch, useAppSelector } from "@/app/hooks/hooks";
 import { fetchUserData } from "@/app/redux/slices/authSlice";
 import Footer from "@/components/footer";
+import {useRouter} from "next/navigation";
+
 
 export default function Home() {
   const dispatch = useAppDispatch();
-  const { isLoggedIn } = useAppSelector((state) => state.auth);
+  const { userData, isLoggedIn } = useAppSelector((state) => state.auth);
   // console.log("yeh token check krha hu ",token)
+  const router = useRouter();
+
 
   useEffect(() => {
     dispatch(fetchUserData());
   }, [dispatch]);
 
+  useEffect(() => {
+    if (isLoggedIn && userData) {
+      router.push("/blogingPage"); // redirect to home
+    }
+  }, [isLoggedIn, userData,router]);
+
+  
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-purple-50 to-pink-50">
       <Navbar />

@@ -14,10 +14,6 @@ from fastapi.responses import JSONResponse
 from fastapi.requests import Request
 
 
-
-
-
-
 app = FastAPI()
 
 # Enable CORS for frontend
