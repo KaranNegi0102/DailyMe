@@ -92,6 +92,7 @@ export default function UserProfile() {
       );
       toast.success("Log Out Successful")
       console.log(response.data.message);
+      sessionStorage.removeItem("manualVisit");
       window.location.reload();
     } catch (error) {
       toast.error("Log Out Not Successful");

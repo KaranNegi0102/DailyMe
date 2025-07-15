@@ -21,7 +21,6 @@ function HomePageWithSuspense() {
     dispatch(fetchUserData());
   }, [dispatch]);
 
-// 1. Detect ?manual=true in URL and store in localStorage
 useEffect(() => {
   if (typeof window !== "undefined") {
     const isManual = searchParams.get("manual") === "true";

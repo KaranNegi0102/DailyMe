@@ -23,7 +23,7 @@ function NavbarWithSuspense() {
       const response = await axios.get(`/api/auth/logOut`);
       toast.success("Log Out Successful");
       console.log(response.data.message);
-      localStorage.removeItem("manualVisit");
+      sessionStorage.removeItem("manualVisit");
       window.location.reload();
     } catch (error) {
       toast.error("Log Out Not Successful");
