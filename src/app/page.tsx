@@ -1,12 +1,11 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "./../components/navbar";
 import Image from "next/image";
 import { useAppDispatch, useAppSelector } from "@/app/hooks/hooks";
 import { fetchUserData } from "@/app/redux/slices/authSlice";
 import Footer from "@/components/footer";
-import {useRouter , useSearchParams} from "next/navigation";
-
+import { useRouter, useSearchParams } from "next/navigation";
 
 export default function Home() {
   const dispatch = useAppDispatch();
@@ -14,22 +13,36 @@ export default function Home() {
   // console.log("yeh token check krha hu ",token)
   const router = useRouter();
   const searchParams = useSearchParams();
-
-
+  const [manualVisit, setManualVisit] = useState(false);
 
   useEffect(() => {
     dispatch(fetchUserData());
   }, [dispatch]);
 
   useEffect(() => {
-    const isManualVisit = searchParams.get("manual") === "true";
+    if (typeof window !== "undefined") {
+      const isManual = searchParams.get("manual") === "true";
 
-    if (!isManualVisit && isLoggedIn && userData) {
-      // Automatically redirect to /blogingPage
-      router.push("/blogingPage");
+      if (isManual) {
+        sessionStorage.setItem("manualVisit", "true");
+        setManualVisit(true);
+        const url = new URL(window.location.href);
+        url.searchParams.delete("manual");
+        window.history.replaceState({}, document.title, url.pathname);
+      } else {
+        const savedManual = sessionStorage.getItem("manualVisit") === "true";
+        setManualVisit(savedManual);
+      }
     }
-  }, [isLoggedIn, userData, searchParams, router]);
+  }, [searchParams]);
 
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      if (!manualVisit && isLoggedIn && userData) {
+        router.push("/blogingPage");
+      }
+    }
+  }, [manualVisit, isLoggedIn, userData, router]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-purple-50 to-pink-50">
@@ -39,7 +52,7 @@ export default function Home() {
       <div className="relative overflow-hidden">
         {/* Background Pattern */}
         <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
-        
+
         {/* Main Content */}
         <div className="relative z-10 container mx-auto px-4 py-8">
           {/* Header Text */}
@@ -54,7 +67,8 @@ export default function Home() {
               Where Every Thought Deserves a Page
             </p>
             <p className="text-lg text-gray-600 mt-4 max-w-xl delius-swash-caps-mix mx-auto">
-              Join thousands of writers sharing their stories, insights, and creativity in our vibrant blogging community.
+              Join thousands of writers sharing their stories, insights, and
+              creativity in our vibrant blogging community.
             </p>
           </div>
 
@@ -63,7 +77,7 @@ export default function Home() {
             <div className="relative group">
               {/* Glow effect */}
               <div className="absolute -inset-4 bg-gradient-to-r from-purple-600 to-red-400  rounded-3xl blur-lg opacity-20 group-hover:opacity-30 transition-opacity duration-500"></div>
-              
+
               {/* Main image container */}
               <div className="relative bg-white/80 backdrop-blur-sm rounded-3xl p-2 shadow-2xl">
                 <Image
@@ -73,30 +87,32 @@ export default function Home() {
                   height={600}
                   className="w-full h-96 md:h-[500px] object-cover rounded-2xl"
                 />
-                
+
                 {/* Overlay with CTA */}
                 <div className="absolute inset-0 rounded-2xl flex items-center justify-center">
                   <div className="text-center transform hover:scale-105 transition-transform duration-300">
                     {isLoggedIn ? (
                       <a
                         href="/blogingPage"
-                        className="group relative inline-flex items-center justify-center hover:bg-gray-900 px-8 py-4 text-lg font-semibold text-white  rounded-full shadow-lg hover:shadow-xl transition-all duration-300 delius-swash-caps-regular"
+                        className="group relative inline-flex  items-center justify-center hover:bg-gray-900 px-8 py-4 text-lg font-semibold text-white  rounded-full shadow-lg hover:shadow-xl transition-all duration-300 delius-swash-caps-regular"
                       >
-                        <span className="relative z-10">Let&apos;s Explore</span>
-                        <div className="absolute inset-0 border-white border-2 hover:bg-gray-900 rounded-full  group-hover:opacity-100 transition-opacity duration-300"></div>
+                        <span className="relative z-10">
+                          Let&apos;s Explore
+                        </span>
+                        <div className="absolute inset-0 border-white border-2 bg-gray-900 text-white sm:bg-transparent sm:text-white hover:bg-gray-900 rounded-full  group-hover:opacity-100 transition-opacity duration-300"></div>
                       </a>
                     ) : (
                       <div className="flex flex-col sm:flex-row gap-4">
                         <a
                           href="/register"
-                          className="group relative inline-flex items-center animate-float justify-center hover:bg-gray-900  px-8 py-4 text-lg font-semibold text-white  rounded-full shadow-lg hover:shadow-xl transition-all duration-300 delius-swash-caps-regular"
+                          className="group relative inline-flex items-center animate-float justify-center px-8 py-4 text-lg font-semibold rounded-full shadow-lg hover:shadow-xl transition-all duration-300 delius-swash-caps-regular bg-gray-900 text-white sm:bg-transparent sm:text-white hover:bg-gray-900"
                         >
-                          <span className="relative z-10 ">Get Started</span>
+                          <span className="relative z-10">Get Started</span>
                           <div className="absolute inset-0 border-white border-2 hover:bg-gray-900 rounded-full  group-hover:opacity-100 transition-opacity duration-300"></div>
                         </a>
                         <a
                           href="/login"
-                          className="group relative inline-flex items-center animate-float justify-center px-8 py-4 border-white hover:text-white border-2 hover:bg-gray-900 text-lg font-semibold text-white    rounded-full shadow-lg hover:shadow-xl  transition-all duration-300 delius-swash-caps-regular"
+                          className="group relative inline-flex items-center animate-float justify-center px-8 py-4 border-white border-2 text-lg font-semibold rounded-full shadow-lg hover:shadow-xl transition-all duration-300 delius-swash-caps-regular bg-gray-900 text-white sm:bg-transparent sm:text-white hover:bg-gray-900"
                         >
                           Login
                         </a>
@@ -115,7 +131,8 @@ export default function Home() {
                 Ready to Start Your Journey?
               </h2>
               <p className="text-gray-600 mb-6 max-w-md delius-swash-caps-regular mx-auto">
-                Join thousands of writers who have already discovered the power of sharing their stories.
+                Join thousands of writers who have already discovered the power
+                of sharing their stories.
               </p>
               {!isLoggedIn && (
                 <a
@@ -148,39 +165,45 @@ export default function Home() {
             transform: translateY(0);
           }
         }
-        
+
         @keyframes float {
-          0%, 100% {
+          0%,
+          100% {
             transform: translateY(0px);
           }
           50% {
             transform: translateY(-20px);
           }
         }
-        
+
         @keyframes float-delayed {
-          0%, 100% {
+          0%,
+          100% {
             transform: translateY(0px);
           }
           50% {
             transform: translateY(-15px);
           }
         }
-        
+
         .animate-fade-in {
           animation: fade-in 1s ease-out;
         }
-        
+
         .animate-float {
           animation: float 6s ease-in-out infinite;
         }
-        
+
         .animate-float-delayed {
           animation: float-delayed 8s ease-in-out infinite;
         }
-        
+
         .bg-grid-pattern {
-          background-image: radial-gradient(circle at 1px 1px, rgba(255,255,255,0.3) 1px, transparent 0);
+          background-image: radial-gradient(
+            circle at 1px 1px,
+            rgba(255, 255, 255, 0.3) 1px,
+            transparent 0
+          );
           background-size: 20px 20px;
         }
       `}</style>
