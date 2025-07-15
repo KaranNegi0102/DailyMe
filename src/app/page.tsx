@@ -21,31 +21,35 @@ function HomePageWithSuspense() {
     dispatch(fetchUserData());
   }, [dispatch]);
 
- useEffect(() => {
-  if (typeof window !== "undefined") {
-    // did they click “Home” previously?
-    const saved = localStorage.getItem("manualVisit") === "true";
-    setManualVisit(saved);
-  }
-}, []);
-
+// 1. Detect ?manual=true in URL and store in localStorage
 useEffect(() => {
   if (typeof window !== "undefined") {
-    if (searchParams.get("manual") === "true") {
+    const isManual = searchParams.get("manual") === "true";
+
+    if (isManual) {
       localStorage.setItem("manualVisit", "true");
       setManualVisit(true);
 
-      // clean up the URL
+      // Remove ?manual=true from URL for clean look
       const url = new URL(window.location.href);
       url.searchParams.delete("manual");
       window.history.replaceState({}, "", url.pathname);
+    } else {
+      const saved = localStorage.getItem("manualVisit") === "true";
+      setManualVisit(saved);
     }
   }
 }, [searchParams]);
 
 useEffect(() => {
-  if (!manualVisit && isLoggedIn && userData) {
-    router.push("/blogingPage");
+  if (typeof window !== "undefined") {
+    console.log("this is manula visit flag",manualVisit)
+    if (!manualVisit && isLoggedIn && userData) {
+      router.push("/blogingPage");
+    }
+    else{
+      router.push("/");
+    }
   }
 }, [manualVisit, isLoggedIn, userData, router]);
 
