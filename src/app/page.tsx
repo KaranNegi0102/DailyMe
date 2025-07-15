@@ -21,30 +21,33 @@ function HomePageWithSuspense() {
     dispatch(fetchUserData());
   }, [dispatch]);
 
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const isManual = searchParams.get("manual") === "true";
+ useEffect(() => {
+  if (typeof window !== "undefined") {
+    // did they click “Home” previously?
+    const saved = localStorage.getItem("manualVisit") === "true";
+    setManualVisit(saved);
+  }
+}, []);
 
-      if (isManual) {
-        sessionStorage.setItem("manualVisit", "true");
-        setManualVisit(true);
-        const url = new URL(window.location.href);
-        url.searchParams.delete("manual");
-        window.history.replaceState({}, document.title, url.pathname);
-      } else {
-        const savedManual = sessionStorage.getItem("manualVisit") === "true";
-        setManualVisit(savedManual);
-      }
-    }
-  }, [searchParams]);
+useEffect(() => {
+  if (typeof window !== "undefined") {
+    if (searchParams.get("manual") === "true") {
+      localStorage.setItem("manualVisit", "true");
+      setManualVisit(true);
 
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      if (!manualVisit && isLoggedIn && userData) {
-        router.push("/blogingPage");
-      }
+      // clean up the URL
+      const url = new URL(window.location.href);
+      url.searchParams.delete("manual");
+      window.history.replaceState({}, "", url.pathname);
     }
-  }, [manualVisit, isLoggedIn, userData, router]);
+  }
+}, [searchParams]);
+
+useEffect(() => {
+  if (!manualVisit && isLoggedIn && userData) {
+    router.push("/blogingPage");
+  }
+}, [manualVisit, isLoggedIn, userData, router]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-purple-50 to-pink-50">
