@@ -6,8 +6,10 @@ import { useAppDispatch, useAppSelector } from "@/app/hooks/hooks";
 import { fetchUserData } from "@/app/redux/slices/authSlice";
 import Footer from "@/components/footer";
 import { useRouter, useSearchParams } from "next/navigation";
+import { Suspense } from "react";
 
-export default function Home() {
+
+function HomePageWithSuspense() {
   const dispatch = useAppDispatch();
   const { userData, isLoggedIn } = useAppSelector((state) => state.auth);
   // console.log("yeh token check krha hu ",token)
@@ -208,5 +210,13 @@ export default function Home() {
         }
       `}</style>
     </div>
+  );
+}
+
+export default function Home() {
+  return (
+    <Suspense fallback={null}>
+      <HomePageWithSuspense />
+    </Suspense>
   );
 }

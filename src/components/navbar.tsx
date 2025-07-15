@@ -6,8 +6,9 @@ import { fetchUserData } from "@/app/redux/slices/authSlice";
 import { Facebook, Twitter, Instagram, LogOut } from "lucide-react";
 import axios from "axios";
 import { toast } from "react-hot-toast";
+import { Suspense } from "react";
 
-export default function Navbar() {
+function NavbarWithSuspense() {
   const dispatch = useAppDispatch();
   const { isLoggedIn } = useAppSelector((state) => state.auth);
   // console.log("this is islogged in navbar", isLoggedIn);
@@ -101,5 +102,13 @@ export default function Navbar() {
         </div>
       </div>
     </nav>
+  );
+}
+
+export default function Navbar() {
+  return (
+    <Suspense fallback={null}>
+      <NavbarWithSuspense />
+    </Suspense>
   );
 }
