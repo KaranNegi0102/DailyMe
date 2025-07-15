@@ -27,7 +27,8 @@ useEffect(() => {
     const isManual = searchParams.get("manual") === "true";
 
     if (isManual) {
-      localStorage.setItem("manualVisit", "true");
+      // localStorage.setItem("manualVisit", "true");
+      sessionStorage.setItem("manualVisit", "true");
       setManualVisit(true);
 
       // Remove ?manual=true from URL for clean look
@@ -35,7 +36,8 @@ useEffect(() => {
       url.searchParams.delete("manual");
       window.history.replaceState({}, "", url.pathname);
     } else {
-      const saved = localStorage.getItem("manualVisit") === "true";
+      // const saved = localStorage.getItem("manualVisit") === "true";
+      const saved = sessionStorage.getItem("manualVisit") === "true";
       setManualVisit(saved);
     }
   }
