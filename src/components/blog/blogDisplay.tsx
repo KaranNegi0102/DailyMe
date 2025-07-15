@@ -34,7 +34,7 @@ export default function BlogDisplay() {
         setBlogs(res.data);
         setLoading(false);
       } catch (error) {
-        console.log(error)
+        console.log(error);
         setError("Failed to fetch blogs");
         setLoading(false);
       }
@@ -155,6 +155,27 @@ export default function BlogDisplay() {
               </svg>
               <span>Most Loved</span>
             </button>
+
+            {/* Create Your Story button */}
+            <a
+              href="/createBlog"
+              className="group relative inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-500 text-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 font-semibold"
+            >
+              <svg
+                className="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M12 4v16m8-8H4"
+                />
+              </svg>
+              <span>Create Your Story</span>
+            </a>
 
             {(showRandom || showMostLikes) && (
               <button
