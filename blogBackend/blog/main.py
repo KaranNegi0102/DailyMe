@@ -8,6 +8,7 @@ from fastapi import Cookie
 from fastapi import File,UploadFile
 from cloud_config import cloudinary
 import cloudinary.uploader
+from chat_bot import chat_with_bot
 
 
 from fastapi.responses import JSONResponse
@@ -51,6 +52,9 @@ class UpdateUser(BaseModel):
 class BlogUpdate(BaseModel):
   title:str
   content:str
+
+class chatRequest(BaseModel):
+  message:str
 
 
 logged_in_users={}
@@ -196,7 +200,6 @@ def upload_image(file:UploadFile=File(...)):
   return {"image_url":result["secure_url"]}
 
 
-
 @app.post("/createBlogs")
 def create_blog(blog: BlogIn, user_id: int):
     # print(f"user_id is {user_id}")
@@ -294,6 +297,12 @@ def is_liked(blog_id: int, user_id: int):
     cur.execute("SELECT * FROM likes WHERE blog_id=%s AND user_id=%s", (blog_id, user_id))
     liked = cur.fetchone()
     return {"liked": bool(liked)}
+
+
+@app.post("/chat")
+async def chat_endpoint(data:chatRequest):
+  response = await chat_with_bot(data.message)
+  return {"message":response}
 
 
 
