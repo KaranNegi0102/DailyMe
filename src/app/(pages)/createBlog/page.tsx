@@ -297,7 +297,7 @@ export default function CreateBlogPage() {
             <button
               type="button"
               onClick={handleBack}
-              className="flex items-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-800 px-4 py-2 rounded-lg shadow-sm transition-all duration-200 font-medium"
+              className="flex items-center gap-2 cursor-pointer bg-gray-100 hover:bg-gray-200 text-gray-800 px-4 py-2 rounded-lg shadow-sm transition-all duration-200 font-medium"
               aria-label="Go back"
             >
               <svg
@@ -533,10 +533,10 @@ export default function CreateBlogPage() {
                   <button
                     type="submit"
                     disabled={submissionState.isSubmitting}
-                    className={`w-full font-semibold py-3 px-4 rounded-lg transition-all duration-200 ${
+                    className={`w-full font-semibold py-3 cursor-pointer px-4 rounded-lg transition-all duration-200 ${
                       submissionState.isSubmitting
                         ? "bg-gray-400 cursor-not-allowed text-white"
-                        : "bg-indigo-600 hover:bg-indigo-700 text-white shadow-md hover:shadow-lg transform hover:-translate-y-0.5"
+                        : "bg-gray-900 hover:bg-gray-700 text-white shadow-md hover:shadow-lg transform hover:-translate-y-0.5"
                     }`}
                   >
                     {submissionState.isSubmitting ? (
