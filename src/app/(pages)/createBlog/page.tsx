@@ -127,9 +127,9 @@ export default function CreateBlogPage() {
     try {
       const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
       const response = await axios.post(`${BASE_URL}/chat`, {
-        message: `get keywords for "${title}"',
+        message: `get keywords for "${title}"`,
       });
-
+      console.log(response)
       setKeywords(response.data.message);
     } catch (error) {
       console.error("Keyword fetch error:", error);
