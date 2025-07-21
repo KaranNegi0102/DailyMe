@@ -127,7 +127,7 @@ export default function CreateBlogPage() {
     try {
       const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
       const response = await axios.post(`${BASE_URL}/chat`, {
-        message: `Generate SEO keywords for blog title: "${title}"`,
+        message: `get keywords for "${title}"',
       });
 
       setKeywords(response.data.message);
