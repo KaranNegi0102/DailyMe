@@ -28,7 +28,7 @@ async def chat_with_bot(user_input:str):
   elif "get keywords for" in user_input.lower():
     title = user_input.lower().replace("get keywords for", "").strip().strip("'\"")
     keywords = await get_keywords_from_title(title)
-    return f"Here are some keywords to help with your blog:\n{keywords}"
+    return f"{keywords}"
 
   else:
     response = model.generate_content(user_input)
