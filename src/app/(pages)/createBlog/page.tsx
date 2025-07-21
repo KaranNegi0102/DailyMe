@@ -102,6 +102,27 @@ export default function CreateBlogPage() {
     }
   }
 
+const [keywords, setKeywords] = useState<string | null>(null);
+const [loadingKeywords, setLoadingKeywords] = useState(false);
+
+async function fetchKeywords(title: string) {
+  if (!title.trim()) return;
+  setLoadingKeywords(true);
+  try {
+    const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+    const res = await axios.post(`${BASE_URL}/chat`, {
+      message: `get keywords for "${title}"`,
+    });
+    console.log("my response is -> ",res)
+    setKeywords(res.data.message);
+  } catch (error) {
+    toast.error("Failed to fetch keywords.");
+    console.error("Keyword fetch error:", error);
+  } finally {
+    setLoadingKeywords(false);
+  }
+}
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50">
       {/* Back Button */}
@@ -153,10 +174,20 @@ export default function CreateBlogPage() {
               type="text"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
+              onBlur={() => fetchKeywords(title)}
               className="text-3xl font-bold bg-transparent delius-swash-caps-regular text-gray-900 outline-none mb-8 py-2 px-2 placeholder-gray-400 min-h-[48px] w-full"
               placeholder="Add a title..."
               aria-label="Blog Title"
             />
+            {loadingKeywords ? (
+                <p className="text-sm text-blue-500">Fetching keywords...</p>
+              ) : (
+                keywords && (
+                  <div className="text-sm text-gray-700 bg-gray-100 rounded-md p-2 mt-2">
+                    <strong>Suggested Keywords:</strong> {keywords}
+                  </div>
+                )
+              )}
             <textarea
               value={content}
               onChange={(e) => setContent(e.target.value)}
