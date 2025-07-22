@@ -5,7 +5,7 @@ import { useAppSelector, useAppDispatch } from "@/app/hooks/hooks";
 import { fetchUserData } from "@/app/redux/slices/authSlice";
 import Image from "next/image";
 import MyBlogNavbar from "@/components/myBlog/navbar";
-import {toast} from 'react-hot-toast';
+import { toast } from "react-hot-toast";
 
 interface Blog {
   id: number;
@@ -53,7 +53,6 @@ export default function Page() {
           <div className="text-center">
             <div className="relative">
               <div className="animate-spin rounded-full h-20 w-20 border-4 border-purple-500 border-t-transparent mx-auto mb-6"></div>
-              <div className="absolute inset-0 rounded-full border-4 border-purple-200 animate-pulse"></div>
             </div>
             <p className="text-2xl text-gray-700 delius-swash-caps-regular">
               Loading your creative space...
@@ -113,7 +112,7 @@ export default function Page() {
       window.location.reload();
     } catch (error) {
       console.log(error);
-      toast.error("Failed to delete blog.")
+      toast.error("Failed to delete blog.");
     }
   };
 
@@ -126,35 +125,35 @@ export default function Page() {
 
       <div className="relative z-10 container mx-auto px-6 py-8">
         {/* Header Section */}
-        <div className="mb-12">
-          <div className="bg-white/80 backdrop-blur-sm rounded-3xl p-8 shadow-xl">
-            <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6">
-              <div className="flex items-center gap-6">
+        <div className="mb-8 sm:mb-10 md:mb-12">
+          <div className="bg-white/80 backdrop-blur-sm rounded-3xl p-4 sm:p-6 md:p-8 shadow-xl">
+            <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 sm:gap-6">
+              <div className="flex items-center gap-4 sm:gap-6">
                 {/* User Avatar */}
-                <div className="w-20 h-20 bg-gray-700 rounded-full flex items-center justify-center shadow-lg">
-                  <span className="text-white font-bold text-2xl">
+                <div className="w-14 h-14 sm:w-16 sm:h-16 md:w-20 md:h-20 bg-gray-700 rounded-full flex items-center justify-center shadow-lg">
+                  <span className="text-white font-bold text-xl sm:text-2xl">
                     {userData?.username?.charAt(0).toUpperCase() || "U"}
                   </span>
                 </div>
 
                 <div>
-                  <h1 className="text-4xl font-bold bg-gray-700 bg-clip-text text-transparent delius-swash-caps-regular mb-2">
+                  <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold bg-gray-700 bg-clip-text text-transparent delius-swash-caps-regular mb-1 sm:mb-2">
                     Welcome back, {userData?.username || "Writer"}!
                   </h1>
-                  <p className="text-gray-600 delius-swash-caps-regular text-lg">
+                  <p className="text-gray-600 delius-swash-caps-regular text-base sm:text-lg">
                     Your Creative Dashboard
                   </p>
-                  <div className="flex items-center gap-4 mt-2">
-                    <div className="flex items-center gap-2">
-                      <div className="w-3 h-3 bg-purple-500 rounded-full"></div>
-                      <span className="text-sm text-gray-600">
+                  <div className="flex items-center gap-2 sm:gap-4 mt-1 sm:mt-2">
+                    <div className="flex items-center gap-1 sm:gap-2">
+                      <div className="w-2 h-2 sm:w-3 sm:h-3 bg-purple-500 rounded-full"></div>
+                      <span className="text-xs sm:text-sm text-gray-600">
                         {blogs.length}{" "}
                         {blogs.length === 1 ? "Story" : "Stories"}
                       </span>
                     </div>
-                    <div className="flex items-center gap-2">
-                      <div className="w-3 h-3 bg-pink-500 rounded-full"></div>
-                      <span className="text-sm text-gray-600">
+                    <div className="flex items-center gap-1 sm:gap-2">
+                      <div className="w-2 h-2 sm:w-3 sm:h-3 bg-pink-500 rounded-full"></div>
+                      <span className="text-xs sm:text-sm text-gray-600">
                         Active Writer
                       </span>
                     </div>
@@ -165,10 +164,10 @@ export default function Page() {
               {/* Create Blog Button */}
               <a
                 href="/createBlog"
-                className="group relative inline-flex items-center gap-3 px-8 py-4 bg-gray-700 hover:bg-black text-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 indie-flower-regular font-semibold text-lg"
+                className="group relative inline-flex items-center gap-2 sm:gap-3 px-5 py-2.5 sm:px-8 sm:py-4 bg-gray-700 hover:bg-black text-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 indie-flower-regular font-semibold text-base sm:text-lg mt-4 lg:mt-0"
               >
                 <svg
-                  className="w-5 h-5"
+                  className="w-4 h-4 sm:w-5 sm:h-5"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
